@@ -11,7 +11,7 @@
     <title>Home</title>
 </head>
 <body>
-    <nav class="navbar fixed-top navbar-expand-md navbar-light" style="background-color: rgba(255,255,255, 0.85)">
+<nav class="navbar fixed-top navbar-expand-md navbar-light" style="background-color: rgba(255,255,255, 0.85)">
         <div class="container">
             <a 
                 href="./profile.php" 
@@ -62,9 +62,46 @@
     <div class="container dashboard">
     <div class="row center">
       <div class="col-md-8 col-md-offset-2">
-        <h1>Welcome to the Discussion Forum</h1>
+        <h1>Trending Thoughts</h1>
         <p>Join the conversation and share your thoughts on a variety of topics.</p>
         <hr>
+
+<!-- Button trigger modal -->
+<div class="container">
+    <button type="button" class="btn btn-dark fixed-bottom p-5" width="100px" height="100px" data-toggle="modal" data-target="#create-post-modal">Create New Post <i class="bi bi-pencil-square"></i></button>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="create-post-modal" tabindex="-1" role="dialog" aria-labelledby="create-post-modal-title" aria-hidden="true">
+  <div style="margin-top: 150px" class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="create-post-modal-title">Create New Post</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="post-title">Title</label>
+            <input type="text" class="form-control" id="post-title" placeholder="Enter post title">
+          </div>
+          <div class="form-group">
+            <label for="post-content">Content</label>
+            <textarea class="form-control" id="post-content" rows="3" placeholder="Enter post content"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Create Post</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
         <h3>Featured Topics</h3>
         <div class="row">
         <div class="col-lg-12">
@@ -74,10 +111,11 @@
               <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod justo vel lacus suscipit, in bibendum lectus posuere. Proin feugiat, libero auctor pharetra tristique, enim justo hendrerit mauris, vel maximus sapien purus vel justo.</p>
               <p class="card-text"><small class="text-muted">Posted by User1 on March 22, 2023</small></p>
               <div class="dropdown">
-           <!-- Button trigger popover -->
-            <button type="button" class="btn btn-primary" data-toggle="popover" data-placement="bottom" title="Comments">
-            View Comments
-            </button>
+                <!-- Button trigger popover -->
+                <button type="button" class="btn btn-light" title="Likes"><i class="bi bi-hand-thumbs-up-fill"></i></button>
+                <button type="button" class="btn btn-light" data-toggle="popover" data-placement="bottom" title="Comments"><i class="bi bi-chat-left-dots-fill"></i></button>
+                <button type="button" class="btn btn-light" title="Share"><i class="bi bi-share-fill"></i></button>
+
 
             <!-- Popover content -->
             <div id="comments-popover-content" class="d-none">
@@ -89,17 +127,7 @@
             </div>
 
             <!-- Initialize popover -->
-            <script>
-            $(function () {
-            $('[data-toggle="popover"]').popover({
-                html: true,
-                content: function () {
-                return $('#comments-popover-content').html();
-                }
-            });
-            });
-            </script>
-
+            
                 </div>
             </div>
         </div>
@@ -108,6 +136,19 @@
                             <h5 class="card-title">Discussion Title</h5>
                             <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod justo vel lacus suscipit, in bibendum lectus posuere. Proin feugiat, libero auctor pharetra tristique, enim justo hendrerit mauris, vel maximus sapien purus vel justo.</p>
                             <p class="card-text"><small class="text-muted">Posted by User2 on March 21, 2023</small></p>
+                             <!-- Button trigger popover -->
+                            <button type="button" class="btn btn-light" title="Likes"><i class="bi bi-hand-thumbs-up-fill"></i></button>
+                            <button type="button" class="btn btn-light" data-toggle="popover" data-placement="bottom" title="Comments"><i class="bi bi-chat-left-dots-fill"></i></button>
+                            <button type="button" class="btn btn-light" title="Share"><i class="bi bi-share-fill"></i></button>
+
+                            <!-- Popover content -->
+                            <div id="comments-popover-content" class="d-none">
+                            <ul>
+                                <li>Comment 1</li>
+                                <li>Comment 2</li>
+                                <li>Comment 3</li>
+                            </ul>
+                            </div>
                         </div>
                     </div>
                     <div class="card mb-3">
@@ -115,6 +156,20 @@
                             <h5 class="card-title">Discussion Title</h5>
                             <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod justo vel lacus suscipit, in bibendum lectus posuere. Proin feugiat, libero auctor pharetra tristique, enim justo hendrerit mauris, vel maximus sapien purus vel justo.</p>
                             <p class="card-text"><small class="text-muted">Posted by User3 on March 20, 2023</small></p>
+
+                             <!-- Button trigger popover -->
+                            <button type="button" class="btn btn-light" title="Likes"><i class="bi bi-hand-thumbs-up-fill"></i></button>
+                            <button type="button" class="btn btn-light" data-toggle="popover" data-placement="bottom" title="Comments"><i class="bi bi-chat-left-dots-fill"></i></button>
+                            <button type="button" class="btn btn-light" title="Share"><i class="bi bi-share-fill"></i></button>
+
+                            <!-- Popover content -->
+                            <div id="comments-popover-content" class="d-none">
+                            <ul>
+                                <li>Comment 1</li>
+                                <li>Comment 2</li>
+                                <li>Comment 3</li>
+                            </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
