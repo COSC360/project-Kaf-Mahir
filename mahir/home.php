@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/home.css">
     <title>Home</title>
 </head>
@@ -73,17 +74,35 @@
               <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod justo vel lacus suscipit, in bibendum lectus posuere. Proin feugiat, libero auctor pharetra tristique, enim justo hendrerit mauris, vel maximus sapien purus vel justo.</p>
               <p class="card-text"><small class="text-muted">Posted by User1 on March 22, 2023</small></p>
               <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  View Comments
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                  <a class="dropdown-item" href="#">Comment 1</a>
-                  <a class="dropdown-item" href="#">Comment 2</a>
-                  <a class="dropdown-item" href="#">Comment 3</a>
-                </div>
-              </div>
+           <!-- Button trigger popover -->
+            <button type="button" class="btn btn-primary" data-toggle="popover" data-placement="bottom" title="Comments">
+            View Comments
+            </button>
+
+            <!-- Popover content -->
+            <div id="comments-popover-content" class="d-none">
+            <ul>
+                <li>Comment 1</li>
+                <li>Comment 2</li>
+                <li>Comment 3</li>
+            </ul>
             </div>
-          </div>
+
+            <!-- Initialize popover -->
+            <script>
+            $(function () {
+            $('[data-toggle="popover"]').popover({
+                html: true,
+                content: function () {
+                return $('#comments-popover-content').html();
+                }
+            });
+            });
+            </script>
+
+                </div>
+            </div>
+        </div>
                     <div class="card mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Discussion Title</h5>
@@ -103,5 +122,10 @@
       </div>
     </div>
   </div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
 </body>
 </html>
