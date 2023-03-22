@@ -45,7 +45,7 @@
 
                 <ul class="navbar-nav ms-auto align-items-center">
                 <li class="nav-item  ">
-                        <a href="./home.php" class="nav-link  "><h4><i class="bi bi-house"></i></h4></a>
+                        <a href="./home.php" class="nav-link active "><h4><i class="bi bi-house"></i></h4></a>
                     </li>    
                 <li class="nav-item  ">
                         <a href="" class="nav-link  "><h4><i class="bi bi-box-arrow-left"></i></h4></a>
