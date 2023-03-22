@@ -141,7 +141,7 @@ if (isset($_POST["login-btn"])) {
       $_SESSION['verified'] = $user['verified'];
       $_SESSION['msg'] = 'You are now logged in';
       $_SESSION['alert-class'] = 'p-lg-5 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3';
-      header("Location: index.php");
+      header("Location: mahir/home.php");
       exit();
 } else {
   $errors['wrong'] = 'Wrong Email/Username or Password';
@@ -160,14 +160,17 @@ if(count($errors) > 0) {
 
 
 //logout
-if (isset($_GET["logout"])) {
-  session_destroy();
-  unset($_SESSION['username']);
-  unset($_SESSION['email']);
-  unset($_SESSION['verified']);
-  header("Location: login.php");
-  exit();
+logout('login.php');
 
+function logout($location) {
+  if (isset($_GET["logout"])) {
+    session_destroy();
+    unset($_SESSION['username']);
+    unset($_SESSION['email']);
+    unset($_SESSION['verified']);
+    header("Location: ". $location);
+    exit();
+  }
 }
 ?>
 
