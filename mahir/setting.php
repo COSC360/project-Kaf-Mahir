@@ -105,7 +105,7 @@ if(isset($_POST['submit'])){
                         <a href="" class="nav-link  "><h4><i class="bi bi-box-arrow-left"></i></h4></a>
                     </li>
                     <li class="nav-item ">
-                        <a href="./setting.php" class="nav-link"><h4><i class="bi bi-gear"></h4></i></a>
+                        <a href="./setting.php" class="nav-link active"><h4><i class="bi bi-gear"></h4></i></a>
                     </li>
                 </ul>
 
