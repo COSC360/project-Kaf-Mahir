@@ -89,12 +89,12 @@
                     <input type="email" class="form-control" id="inputEmail" placeholder="Enter email">
                   </div>
                   <div class="form-group">
-                    <label class="mt-2" for="inputPhone">Phone</label>
-                    <input type="tel" class="form-control" id="inputPhone" placeholder="Enter phone number">
-                  </div>
-                  <div class="form-group">
                     <label class="mt-2" for="inputCity">City</label>
                     <input type="text" class="form-control" id="inputCity" placeholder="Enter city">
+                  </div>
+                  <div class="form-group">
+                    <label class="mt-2" for="inputCity">Profile Image</label>
+                    <input type="file" class="form-control" id="inputCity" placeholder="Enter city">
                   </div>
                   <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
                 </form>
