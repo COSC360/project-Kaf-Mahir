@@ -1,14 +1,14 @@
 <?php 
 require '../config/db.php';
 
-if(isset($_POST['submit'])){
+if(isset($_POST['save-changes-btn'])){
   $target_dir = "../uploads/"; // specify the directory where you want to save the uploaded file
-  $target_file = $target_dir . basename($_FILES["profile_pic"]["name"]);
+  $target_file = $target_dir . basename($_FILES["inputPic"]["name"]);
   $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
   $uploadOk = 1;
 
   // Check if image file is a actual image or fake image
-  $check = getimagesize($_FILES["profile_pic"]["tmp_name"]);
+  $check = getimagesize($_FILES["inputPic"]["tmp_name"]);
   if($check !== false) {
     $uploadOk = 1;
   } else {
@@ -23,7 +23,7 @@ if(isset($_POST['submit'])){
   }
 
   // Check file size
-  if ($_FILES["profile_pic"]["size"] > 500000) {
+  if ($_FILES["inputPic"]["size"] > 500000) {
     echo "Sorry, your file is too large.";
     $uploadOk = 0;
   }
@@ -40,12 +40,17 @@ if(isset($_POST['submit'])){
     echo "Sorry, your file was not uploaded.";
   // if everything is ok, try to upload file
   } else {
-    if (move_uploaded_file($_FILES["profile_pic"]["tmp_name"], $target_file)) {
+    if (move_uploaded_file($_FILES["inputPic"]["tmp_name"], $target_file)) {
       // save the filename in the database
-      $filename = basename($_FILES["profile_pic"]["name"]);
+      $filename = basename($_FILES["inputPic"]["name"]);
       $username = $_POST['username']; // assuming you have a username
-
-
+      
+      $query = "INSERT INTO profiles (username, profile_pic) VALUES ('$username', '$filename')";
+      mysqli_query($conn, $query);
+      echo "your file was uploaded succesfully.";
+    }
+  }
+}
 ?>
 
 
@@ -145,10 +150,11 @@ if(isset($_POST['submit'])){
                     <input type="text" class="form-control" id="inputCity" placeholder="Enter city">
                   </div>
                   <div class="form-group">
-                    <label class="mt-2" for="inputCity">Profile Image</label>
-                    <input type="file" class="form-control" id="inputCity" placeholder="Enter city">
+                    <label class="mt-2" for="inputPic">Profile Image</label>
+                    <input type="file" class="form-control" id="inputPic" name='inputPic'>
+                    <input type="hidden" class="form-control" id="inputUsername" name="username" value="<?php echo $_SESSION['username']; ?>">
                   </div>
-                  <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+                  <button type="submit" class="btn btn-primary mt-3" name='save-changes-btn'>Save Changes</button>
                 </form>
             </div>
             <div class="tab-pane fade" id="v-pills-notifications" role="tabpanel" aria-labelledby="v-pills-notifications-tab">
