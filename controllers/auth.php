@@ -1,7 +1,6 @@
 <?php
 session_start();
-require 'config/db.php';
-require_once 'controllers/emailController.php';
+require '../config/db.php';
 
 // Initialize variables
 $errors = array();
@@ -77,7 +76,6 @@ if (isset($_POST["signup-btn"])) {
       $_SESSION['verified'] = $verified;
       $_SESSION['msg'] = 'You are now logged in';
       $_SESSION['alert-class'] = 'p-lg-5 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3';
-      sendVerificationEmail($email, $username, $token);
       header("Location: index.php");
       exit();
     } else {
@@ -99,17 +97,14 @@ if(count($errors) > 0) {
 
 // login validation
 if (isset($_POST["login-btn"])) {
-  echo '<h1>KAKAKAA</h1>';
   // Get user inputs from form
   $username = $_POST['username'];
   $password = $_POST['password'];
   
   // Validate user inputs
   if (empty($username)) {
-    echo '<h1>KAKAKAA</h1>';
     $errors['username'] = 'Username/Email Required';
   }
-  echo '<h1>KAKAKAA</h1>';
   
   if (empty($password)) {
     $errors['password'] = 'Password Required';
@@ -121,7 +116,6 @@ if (isset($_POST["login-btn"])) {
     }
   } 
   
-  echo $errors;
   if (count($errors) === 0) {
   //Check if username or email already exist in database
   $query = "SELECT * FROM users WHERE email=? OR username=? LIMIT 1";
@@ -141,7 +135,7 @@ if (isset($_POST["login-btn"])) {
       $_SESSION['verified'] = $user['verified'];
       $_SESSION['msg'] = 'You are now logged in';
       $_SESSION['alert-class'] = 'p-lg-5 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3';
-      header("Location: mahir/home.php");
+      header("Location: home.php");
       exit();
 } else {
   $errors['wrong'] = 'Wrong Email/Username or Password';
@@ -172,6 +166,38 @@ function logout($location) {
     exit();
   }
 }
-?>
+
+
+
 
   
+
+//create post
+
+if (isset($_POST["create-post-btn"])) {
+  
+  // Get user inputs from form
+  $username = $_SESSION['username'];
+  $postTitle = $_POST['postTitle'];
+  $postContent = $_POST['postContent'];
+
+  // Validate user inputs
+  if (empty($postTitle)) {
+    $errors['postTitle'] = 'Post Title Required';
+  }
+  if (empty($postContent)) {
+    $errors['postContent'] = 'Post Content Required';
+  }
+  if (count($errors) == 0) {
+    $query = "INSERT INTO posts (AuthorUsername, Title, Body) VALUES (?,?,?)";
+    $statement = $conn -> prepare($query);
+    $statement -> bind_param('sss', $username, $postTitle, $postContent);
+    $statement -> execute();
+    $statement -> close();
+  }
+
+  
+}
+
+
+?>

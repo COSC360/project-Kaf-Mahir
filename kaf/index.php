@@ -1,5 +1,5 @@
 <?php
-require_once('controllers/auth.php'); 
+require_once('../controllers/auth.php'); 
 
 if(!isset($_SESSION['username'])) {
     header("Location: login.php");

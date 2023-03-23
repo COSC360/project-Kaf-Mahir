@@ -1,54 +1,6 @@
 <?php 
-require '../config/db.php';
-
-if(isset($_POST['submit'])){
-  $target_dir = "../uploads/"; // specify the directory where you want to save the uploaded file
-  $target_file = $target_dir . basename($_FILES["profile_pic"]["name"]);
-  $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-  $uploadOk = 1;
-
-  // Check if image file is a actual image or fake image
-  $check = getimagesize($_FILES["profile_pic"]["tmp_name"]);
-  if($check !== false) {
-    $uploadOk = 1;
-  } else {
-    echo "File is not an image.";
-    $uploadOk = 0;
-  }
-
-  // Check if file already exists
-  if (file_exists($target_file)) {
-    echo "Sorry, file already exists.";
-    $uploadOk = 0;
-  }
-
-  // Check file size
-  if ($_FILES["profile_pic"]["size"] > 500000) {
-    echo "Sorry, your file is too large.";
-    $uploadOk = 0;
-  }
-
-  // Allow certain file formats
-  if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-  && $imageFileType != "gif" ) {
-    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-    $uploadOk = 0;
-  }
-
-  // Check if $uploadOk is set to 0 by an error
-  if ($uploadOk == 0) {
-    echo "Sorry, your file was not uploaded.";
-  // if everything is ok, try to upload file
-  } else {
-    if (move_uploaded_file($_FILES["profile_pic"]["tmp_name"], $target_file)) {
-      // save the filename in the database
-      $filename = basename($_FILES["profile_pic"]["name"]);
-      $username = $_POST['username']; // assuming you have a username
-
-
+   require 'processForm.php';
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -60,11 +12,11 @@ if(isset($_POST['submit'])){
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/setting.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet">
     <title>Profile</title>
 </head>
-<body >
+<body>
     <nav class="navbar fixed-top navbar-expand-md navbar-light" style="background-color: rgba(255,255,255, 0.85)">
         <div class="container">
             <a 
@@ -99,13 +51,13 @@ if(isset($_POST['submit'])){
 
                 <ul class="navbar-nav ms-auto align-items-center">
                 <li class="nav-item  ">
-                        <a href="./home.php" class="nav-link  "><h4><i class="bi bi-house"></i></h4></a>
+                        <a href="home.php" class="nav-link  "><h4><i class="bi bi-house"></i></h4></a>
                     </li>    
                 <li class="nav-item  ">
-                        <a href="" class="nav-link  "><h4><i class="bi bi-box-arrow-left"></i></h4></a>
+                        <a href="login.php?logout=1" class="nav-link  "><h4><i class="bi bi-box-arrow-left"></i></h4></a>
                     </li>
                     <li class="nav-item ">
-                        <a href="./setting.php" class="nav-link active"><h4><i class="bi bi-gear"></h4></i></a>
+                        <a href="setting.php" class="nav-link active"><h4><i class="bi bi-gear"></h4></i></a>
                     </li>
                 </ul>
 
@@ -131,24 +83,29 @@ if(isset($_POST['submit'])){
           <div class="tab-content" id="v-pills-tabContent">
             <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
               <h2 class="mb-4">Profile Settings</h2>
-              <form>
+              <form action='setting.php' method='POST' enctype="multipart/form-data">
               <div class="form-group">
                     <label class="mt-2" for="inputName">Name</label>
-                    <input type="text" class="form-control" id="inputName" placeholder="Enter name">
+                    <input type="text" class="form-control" id="inputName" name='inputName' placeholder="Enter name">
+                  </div>
+                    <input type="hidden" class="form-control" name='inputEmail' id="inputEmail" value="<?php echo $_SESSION['email']; ?>">
                   </div>
                   <div class="form-group">
-                    <label class="mt-2" for="inputEmail">Email</label>
-                    <input type="email" class="form-control" id="inputEmail" placeholder="Enter email">
+                    <label class="mt-2" for="inputWebsite">Website</label>
+                    <input type="text" class="form-control" name='inputWebsite' id="inputWebsite" placeholder="Enter website">
                   </div>
                   <div class="form-group">
                     <label class="mt-2" for="inputCity">City</label>
                     <input type="text" class="form-control" id="inputCity" placeholder="Enter city">
                   </div>
-                  <div class="form-group">
-                    <label class="mt-2" for="inputCity">Profile Image</label>
-                    <input type="file" class="form-control" id="inputCity" placeholder="Enter city">
+                      <div class="form-group">
+                        <label class="mt-2" for="inputPic">Profile Image</label>
+                        <input type="file" class="form-control" id="inputPic" name='inputPic' accept=".jpg, .jpeg, .png, .gif"> 
+                        <input type="hidden" class="form-control" name='inputUsername' id="inputUsername" value="<?php echo $_SESSION['username']; ?>">
+                     </div>
+
                   </div>
-                  <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+                  <button type="submit" class="btn btn-primary mt-3" name='save-changes-btn'>Save Changes</button>
                 </form>
             </div>
             <div class="tab-pane fade" id="v-pills-notifications" role="tabpanel" aria-labelledby="v-pills-notifications-tab">
@@ -199,22 +156,10 @@ if(isset($_POST['submit'])){
             </div>
         </div>
     </div>
-</div>
- 
-
-</div>
-    <footer>
-        
-    </footer>
 
 <!-- Bootstrap JavaScript -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-  integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-  crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.1/dist/umd/popper.min.js"
-  integrity="sha256-YMC/BBG/3kw1aeCe5X8W5Z2b59wb5N72NfKjC8oBL6g=" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-  integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-  crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"</script>
 </body>
 </html>
