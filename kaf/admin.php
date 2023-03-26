@@ -124,42 +124,42 @@ exit();
     <p>Welcome to the admin dashboard. Here you can manage users and settings.</p>
   </div>
 
-  <div class="container">
+<div class="container">
     <h3>Server Users:</h3>
     <table class="table">
-  <thead>
-    <tr>
-      <th>Username</th>
-      <th>Attribute 1</th>
-      <th>Attribute 2</th>
-      <th>Attribute 3</th>
-      <th>Attribute 4</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>john_doe</td>
-      <td>Value 1</td>
-      <td>Value 2</td>
-      <td>Value 3</td>
-      <td>Value 4</td>
-    </tr>
-    <tr>
-      <td>jane_smith</td>
-      <td>Value 1</td>
-      <td>Value 2</td>
-      <td>Value 3</td>
-      <td>Value 4</td>
-    </tr>
-    <tr>
-      <td>robert_johnson</td>
-      <td>Value 1</td>
-      <td>Value 2</td>
-      <td>Value 3</td>
-      <td>Value 4</td>
-    </tr>
-  </tbody>
-</table>
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Email 1</th>
+          <th>Password</th>
+          <th>Verified</th>
+          <th>Token</th>
+        </tr>
+    </thead>
+    <tbody>
+      <!-- Load Post Card -->
+      <?php 
+          if (isset($_SESSION['username'])) {
+          $username = mysqli_real_escape_string($conn, $_SESSION['username']);
+          }
+
+          $query = "SELECT * FROM users";
+
+          $result = mysqli_query($conn,$query);
+          if (mysqli_num_rows($result) > 0 ) {
+            while ($row = mysqli_fetch_assoc($result)) {
+              echo "     
+                  <tr>
+                  <td>". $row['username'] . "</td>
+                  <td>". $row['email']  . "</td>
+                  <td>". $row['password']  .  "</td>
+                  <td>". $row['verified']  .  "</td>
+                  <td>". $row['token']  .  "</td>
+                </tr>
+              ";
+            }
+          }
+          ?>
 
   
   <!-- Bootstrap JS -->

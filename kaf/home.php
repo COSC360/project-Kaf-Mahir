@@ -41,8 +41,6 @@ if (isset($_POST['post_id'])) { //if ajax request triggered
     // Return the updated upvote count as a JSON object
     $response = array('upvotes' => $upvotes);
     echo json_encode($response);
-    
-      
   
     } catch (mysqli_sql_exception $e) {  // If a user tries to upvote a post twice.
       echo "WOOP WOOP";
@@ -53,10 +51,7 @@ if (isset($_POST['post_id'])) { //if ajax request triggered
 exit();
 }
 
-
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -153,7 +148,7 @@ exit();
 
   <?php //only show if logged in. For now.
     if (isset($_SESSION['username'])) { //if user logged in
-    echo "<button type='button' class='btn btn-dark p-2' width='100px' height='100px' data-toggle='modal' data-target='#create-post-modal'>Create New Post <i class='bi bi-pencil-square'></i></button>";
+    echo "<button type='button' class='btn btn-dark p-2 mt-2 mb-2' width='100px' height='100px' data-toggle='modal' data-target='#create-post-modal'>Create New Post <i class='bi bi-pencil-square'></i></button>";
     } else {
       //if replacing
     }
@@ -213,35 +208,21 @@ exit();
           $UpvotedByCurrentUser = true;
         }
         echo "
-        <a href='post.php?postID=" . $row['PostID'] . "' style='text-decoration: none; color: black;' class='card mb-3'>
+        <a href='post.php?postID=" . $row['PostID'] . "' style='text-decoration: none; color: black;' class='card'>
           <div class='card-body'>
             <h5 class='card-title'>" . $row['Title'] . "</h5>
             <p class='card-text'>" . $row['Body'] . "</p>
             <p class='card-text'><small class='text-muted'> Posted by " . $row['AuthorUsername'] . " on " . $row['DateCreated'] . "</small></p>
-            <div class='dropdown'>
-              <!-- Button trigger popover -->
-              <button type='button' " . (isset($_SESSION['username']) ? "data-post-username='" . $_SESSION['username'] . "' " : "") . "data-post-id='" . $row['PostID'] . " 'class='btn upvote-btn btn-light' name='upvote-btn' title='Likes'><i class='bi bi-arrow-up-square" . ($UpvotedByCurrentUser ? '-fill liked' : ' unliked') . "'></i> <span id='upvotes-" . $row['PostID'] . "' class='counter-" . $row['PostID'] . "'> ". $row['upvotes'] . "</span>
-              </button>
-              <button type='button' class='btn btn-light' data-toggle='popover' data-placement='bottom' title='Comments'><i class='bi bi-chat-left-dots-fill'></i></button>
-              <button type='button' class='btn btn-light' title='Share'><i class='bi bi-share-fill'></i></button>
-              
-              <!-- Popover content -->
-              <div id='comments-popover-content' class='d-none'>
-                <ul>
-                  <li>Comment 1</li>
-                  <li>Comment 2</li>
-                  <li>Comment 3</li>
-                </ul>
-              </div>
-            </div>
           </div>
         </a>
+        <div class='dropdown m-3 mb-4 ms-auto'>
+              <!-- Button trigger popover -->
+              <button type='button' " . (isset($_SESSION['username']) ? "data-post-username='" . $_SESSION['username'] . "' " : "") . "data-post-id='" . $row['PostID'] . " 'class='btn upvote-btn btn-light' name='upvote-btn' title='Likes'><i class='bi bi-arrow-up-square" . ($UpvotedByCurrentUser ? '-fill liked' : ' unliked') . "'></i> <span id='upvotes-" . $row['PostID'] . "' class='counter-" . $row['PostID'] . "'> ". $row['upvotes'] . "</span></button>
+              <button type='button' class='btn btn-light' data-toggle='popover' data-placement='bottom' title='Comments'><i class='bi bi-chat-left-dots-fill'></i></button>
+              <button type='button' class='btn btn-light' title='Share'><i class='bi bi-share-fill'></i></button>
+        </div>
         ";
-
-
       }
-
-      
     }
     ?>
 
