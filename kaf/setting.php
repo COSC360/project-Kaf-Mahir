@@ -1,10 +1,54 @@
+<?php
+require "../controllers/auth.php";
+require 'load-profile.php';
+  
+ //update/create profile
+ 
+ if (isset($_POST['save-profile']) && validateFile()) {
+  if (isset($_SESSION['username'])) {
+    echo 'true1';
+    $username = $_SESSION['username'];
+    echo $username;
+    $full_name = $_POST['inputName'];
+    echo $full_name;
+    $bio = $_POST['inputBio'];
+    echo $bio;
+
+    //Check if username already has profile information
+    $check_query = "SELECT * FROM `profiles` WHERE `username` = '$username'";
+    $result = mysqli_query($conn, $check_query);
+    if (mysqli_num_rows($result) > 0) {
+      $update_query = "UPDATE `profiles` SET `full_name` = '$full_name', `bio` = '$bio' WHERE `username` = '$username'";
+      if (mysqli_query($conn, $update_query)) {
+        $msg = "Profile successfully updated";
+        header("Location: profile.php?msg=" . urlencode($msg));
+        exit;
+    }
+    } else {
+      echo 'yo what';
+    $insert_query = "INSERT INTO profiles (username, full_name, bio) values (?, ?, ?)";
+    $statement = $conn -> prepare($insert_query);
+    $statement -> bind_param('sss', $username, $full_name, $bio);
+    // If user is successfully created, log them in and redirect to homepage
+    if ($statement -> execute()) {
+      $msg = "Profile successfully created";
+      header("Location: profile.php?msg=" . urlencode($msg));
+      exit;
+  } else {
+    die("Error: ". $statement -> error);
+  }   
+}
+}
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/setting.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -78,24 +122,35 @@
           <div class="tab-content" id="v-pills-tabContent">
             <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
               <h2 class="mb-4">Profile Settings</h2>
-              <form>
+              <form action='setting.php' method='POST' enctype="multipart/form-data">
+                <!-- Show Input Errors To User -->
+                  <?php if (isset($_POST['save-profile']) && !validateFile()) { 
+                    echo "<div class='alert alert-warning'>Image formant not supported</div>"; 
+                  } ?>
+                          
+                    
+                      
               <div class="form-group">
                     <label class="mt-2" for="inputName">Name</label>
-                    <input type="text" class="form-control" id="inputName" placeholder="Enter name">
+                    <input type="text" name="inputName"class="form-control" id="inputName" placeholder="Enter name">
                   </div>
-                  <div class="form-group">
+                <div class="form-group">
+                  <label class="mt-2" for="inputBio">Bio</label>
+                  <textarea type="text" name="inputBio" class="form-control" id="inputBio" placeholder="Enter Bio"> </textarea>
+                </div>
+                  <!-- <div class="form-group">
                     <label class="mt-2" for="inputEmail">Email</label>
                     <input type="email" class="form-control" id="inputEmail" placeholder="Enter email">
                   </div>
                   <div class="form-group">
                     <label class="mt-2" for="inputCity">City</label>
                     <input type="text" class="form-control" id="inputCity" placeholder="Enter city">
-                  </div>
-                  <div class="form-group">
-                    <label class="mt-2" for="inputCity">Profile Image</label>
-                    <input type="file" class="form-control" id="inputCity" placeholder="Enter city">
-                  </div>
-                  <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+                  </div> -->
+                <div class="form-group">
+                  <label class="mt-2" for="inputPic">Profile Image</label>
+                  <input type="file" class="form-control" id="inputPic" name='inputPic'>
+                </div>
+                  <button type="submit" name="save-profile" class="btn btn-primary mt-3">Save Changes</button>
                 </form>
             </div>
             <div class="tab-pane fade" id="v-pills-notifications" role="tabpanel" aria-labelledby="v-pills-notifications-tab">
@@ -154,14 +209,9 @@
     </footer>
 
 <!-- Bootstrap JavaScript -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-  integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-  crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.1/dist/umd/popper.min.js"
-  integrity="sha256-YMC/BBG/3kw1aeCe5X8W5Z2b59wb5N72NfKjC8oBL6g=" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-  integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-  crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
 </html>
 
