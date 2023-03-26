@@ -1,0 +1,43 @@
+#proPic {
+    border-radius: 50%;
+  }
+  
+  .navbar-brand img {
+    background-color: white;
+    padding: 2px;
+  }
+  .navbar-brand img:hover {
+    box-shadow: 0px 0px 20px black;
+    transition: 0.3s ease-in-out;
+  }
+  
+  .navbar-nav {
+    display: flex;
+  }
+  
+  .dashboard {
+    margin-top: 150px;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .btn-upvote {
+    background-color: #f2f2f2; /* default background color */
+  }
+  
+  .btn-upvote.upvoted {
+    background-color: #28a745; /* green background color when upvoted */
+  }
+  
+  .loading-indicator {
+    display: none;
+  }
+  

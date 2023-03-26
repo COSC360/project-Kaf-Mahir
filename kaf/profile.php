@@ -12,9 +12,6 @@ require '../controllers/auth.php';
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/profile.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet">
     <title>Profile</title>
 </head>
 <body >
@@ -104,7 +101,6 @@ require '../controllers/auth.php';
     </div>
   </div>
 </div>
-</var>
     <div class="container myBlogs mb-5">
   <div class="row">
     <div class="col-lg-4">
@@ -175,14 +171,72 @@ require '../controllers/auth.php';
   </div>
 </div>
 
-
- 
-
-</div>
-    <footer>
+  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script> 
+      $(document).ready(function() {
+  $('.upvote-btn').click(function() {
+    var $icon = $(this).find('i');  //find i element within upvote-btn
+    $icon.toggleClass('bi-arrow-up-square bi-arrow-up-square-fill'); //toggle between 2 classes
+    var post_id = $(this).data('post-id');
+    var session_username = $(this).data('post-username');
+    // var $counter = $(this).find('.counter');
+    var $upvoteCount = $('#upvotes-' + post_id);
+    
+    $.ajax({
+      url: 'home.php',
+      type: 'POST',
+      data: {
+        post_id: post_id,
+        session_username: session_username,
+        liked: 1
+      },
+      success: function(response) {
         
-    </footer>
+        
 
+        if (response.trim() == 'login'){
+          window.location.href = "login.php?msg=" + encodeURIComponent("You must be logged in to upvote.");
+        } else {
+          console.log(response);
+          console.log(session_username);
+          var data = JSON.parse(response);
+          $("#upvotes-" + post_id).text(data.upvotes);
+          console.log('Upvote added');        }
+      },
+      error: function(xhr, status, error) {
+        console.error(error);
+      }
+    });
+  });
+});
+
+  </script>
+
+  <script>
+      $(document).ready(function() {
+      $('.logout-link').click(function(event) { 
+        $.get($(this).attr('href'), function(response) {
+          location.reload(); // reload the page after the server responds
+        });
+      });
+    });
+  </script>
+    <!-- <script>
+    //JQuery
+    $(document).ready(function() {
+      var postCount = 5;
+      $("button").click(function() {
+          postCount += 3;
+          $("#morePosts").load("load-posts.php", {
+              newPostCount: postCount
+          });
+      });
+    });
+    </script> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
-</body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  </body>
 </html>
