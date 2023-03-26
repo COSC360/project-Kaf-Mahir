@@ -1,7 +1,3 @@
-<?php 
-   require 'processForm.php';
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,11 +8,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/setting.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet">
     <title>Profile</title>
 </head>
-<body>
+<body >
     <nav class="navbar fixed-top navbar-expand-md navbar-light" style="background-color: rgba(255,255,255, 0.85)">
         <div class="container">
             <a 
@@ -42,29 +38,28 @@
             <div 
                 class="collapse navbar-collapse "  
                 id="navbarNav">
-                <form action="" class="d-flex ms-auto">
-                    <input type="search" placeholder="Search..." class="form-control me 2">
-                    <button class="btn btn-outline-info" type="send">
-                    <i class="bi bi-search"></i>
+                <form action="results.php" class="d-flex ms-auto" method="POST">
+                    <input type="search" placeholder="Search..." name="search" class="form-control me 2">
+                    <button class="btn btn-outline-info bi bi-search" type="submit" name="submit-search"></button>
                     </button>
                 </form>
 
                 <ul class="navbar-nav ms-auto align-items-center">
                 <li class="nav-item  ">
-                        <a href="home.php" class="nav-link  "><h4><i class="bi bi-house"></i></h4></a>
+                        <a href="./home.php" class="nav-link  "><h4><i class="bi bi-house"></i></h4></a>
                     </li>    
                 <li class="nav-item  ">
-                        <a href="login.php?logout=1" class="nav-link  "><h4><i class="bi bi-box-arrow-left"></i></h4></a>
+                        <a href="" class="nav-link  "><h4><i class="bi bi-box-arrow-left"></i></h4></a>
                     </li>
                     <li class="nav-item ">
-                        <a href="setting.php" class="nav-link active"><h4><i class="bi bi-gear"></h4></i></a>
+                        <a href="./setting.php" class="nav-link active"><h4><i class="bi bi-gear"></h4></i></a>
                     </li>
                 </ul>
 
             </div>
         </div>
     </nav>
-        <div class="container  mySetting">
+    <div class="container  mySetting">
       <h1 class="mb-4">Account Settings</h1>
       <div class="row">
         <div class="col-md-3">
@@ -83,29 +78,24 @@
           <div class="tab-content" id="v-pills-tabContent">
             <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
               <h2 class="mb-4">Profile Settings</h2>
-              <form action='setting.php' method='POST' enctype="multipart/form-data">
+              <form>
               <div class="form-group">
                     <label class="mt-2" for="inputName">Name</label>
-                    <input type="text" class="form-control" id="inputName" name='inputName' placeholder="Enter name">
-                  </div>
-                    <input type="hidden" class="form-control" name='inputEmail' id="inputEmail" value="<?php echo $_SESSION['email']; ?>">
+                    <input type="text" class="form-control" id="inputName" placeholder="Enter name">
                   </div>
                   <div class="form-group">
-                    <label class="mt-2" for="inputWebsite">Website</label>
-                    <input type="text" class="form-control" name='inputWebsite' id="inputWebsite" placeholder="Enter website">
+                    <label class="mt-2" for="inputEmail">Email</label>
+                    <input type="email" class="form-control" id="inputEmail" placeholder="Enter email">
                   </div>
                   <div class="form-group">
                     <label class="mt-2" for="inputCity">City</label>
                     <input type="text" class="form-control" id="inputCity" placeholder="Enter city">
                   </div>
-                      <div class="form-group">
-                        <label class="mt-2" for="inputPic">Profile Image</label>
-                        <input type="file" class="form-control" id="inputPic" name='inputPic' accept=".jpg, .jpeg, .png, .gif"> 
-                        <input type="hidden" class="form-control" name='inputUsername' id="inputUsername" value="<?php echo $_SESSION['username']; ?>">
-                     </div>
-
+                  <div class="form-group">
+                    <label class="mt-2" for="inputCity">Profile Image</label>
+                    <input type="file" class="form-control" id="inputCity" placeholder="Enter city">
                   </div>
-                  <button type="submit" class="btn btn-primary mt-3" name='save-changes-btn'>Save Changes</button>
+                  <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
                 </form>
             </div>
             <div class="tab-pane fade" id="v-pills-notifications" role="tabpanel" aria-labelledby="v-pills-notifications-tab">
@@ -151,15 +141,27 @@
                     <input type="password" class="form-control" id="inputConfirmPassword" placeholder="Confirm new password">
                 </div>
                 <button type="submit" class="btn btn-primary mt-2">Update Password</button>
-                </form>
-                </div>
+              </form>
             </div>
-        </div>
+          </div>
+      </div>
     </div>
+ 
+
+</div>
+    <footer>
+        
+    </footer>
 
 <!-- Bootstrap JavaScript -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.1/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+  integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+  crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.1/dist/umd/popper.min.js"
+  integrity="sha256-YMC/BBG/3kw1aeCe5X8W5Z2b59wb5N72NfKjC8oBL6g=" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+  integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+  crossorigin="anonymous"></script>
 </body>
 </html>
+

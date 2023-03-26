@@ -38,10 +38,9 @@
             <div 
                 class="collapse navbar-collapse "  
                 id="navbarNav">
-                <form action="" class="d-flex ms-auto">
-                    <input type="search" placeholder="Search..." class="form-control me 2">
-                    <button class="btn btn-outline-info" type="send">
-                    <i class="bi bi-search"></i>
+                <form action="results.php" class="d-flex ms-auto" method="POST">
+                    <input type="search" name="search" placeholder="Search..." class="form-control me 2">
+                    <button class="btn btn-outline-info bi bi-search" type="submit" name="submit-search"></button>
                     </button>
                 </form>
 
