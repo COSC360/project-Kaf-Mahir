@@ -145,9 +145,6 @@ exit();
     <div class="container dashboard">
     <div class="row center">
       <div class="col-md-8 col-md-offset-2">
-        <h1>Trending Thoughts</h1>
-        <p>Join the conversation and share your thoughts on a variety of topics.</p>
-        <hr>
 
 <!-- Button trigger modal -->
 <div class="container">
@@ -189,9 +186,6 @@ exit();
     </div>
   </div>
 </div>
-
-
-<h3>Featured Topics</h3>
 <div class="row">
   <div class="col-lg-12">
   <!-- Load Post Card -->
@@ -200,7 +194,7 @@ exit();
     $username = mysqli_real_escape_string($conn, $_SESSION['username']);
     }
 
-    $query = "SELECT * FROM posts ORDER BY DateCreated DESC LIMIT 15";
+    $query = "SELECT * FROM posts WHERE postID = ". $_GET['postID'];
 
     $result = mysqli_query($conn,$query);
     if (mysqli_num_rows($result) > 0 ) {
@@ -215,41 +209,43 @@ exit();
           $UpvotedByCurrentUser = true;
         }
         echo "
-        <a href='post.php?postID=" . $row['PostID'] . "' style='text-decoration: none; color: black;' class='card mb-3'>
-          <div class='card-body'>
-            <h5 class='card-title'>" . $row['Title'] . "</h5>
-            <p class='card-text'>" . $row['Body'] . "</p>
-            <p class='card-text'><small class='text-muted'> Posted by " . $row['AuthorUsername'] . " on " . $row['DateCreated'] . "</small></p>
-            <div class='dropdown'>
-              <!-- Button trigger popover -->
-              <button type='button' " . (isset($_SESSION['username']) ? "data-post-username='" . $_SESSION['username'] . "' " : "") . "data-post-id='" . $row['PostID'] . " 'class='btn upvote-btn btn-light' name='upvote-btn' title='Likes'><i class='bi bi-arrow-up-square" . ($UpvotedByCurrentUser ? '-fill liked' : ' unliked') . "'></i> <span id='upvotes-" . $row['PostID'] . "' class='counter-" . $row['PostID'] . "'> ". $row['upvotes'] . "</span>
-              </button>
-              <button type='button' class='btn btn-light' data-toggle='popover' data-placement='bottom' title='Comments'><i class='bi bi-chat-left-dots-fill'></i></button>
-              <button type='button' class='btn btn-light' title='Share'><i class='bi bi-share-fill'></i></button>
-              
-              <!-- Popover content -->
-              <div id='comments-popover-content' class='d-none'>
-                <ul>
-                  <li>Comment 1</li>
-                  <li>Comment 2</li>
-                  <li>Comment 3</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </a>
+        <h1>" . $row['AuthorUsername'] ."</h1>
+        <hr>
+        <h2 class='m-3'>" . $row['Title']  . "</h2>
+        <div class='card mb-3'>
+  <div class='card-body'>
+    <p class='card-text'>" . $row['Body'] . "</p>
+    <p class='card-text'><small class='text-muted'> Posted by " . $row['AuthorUsername'] . " on " . $row['DateCreated'] . "</small></p>
+    <div class='dropdown'>
+      <button type='button' " . (isset($_SESSION['username']) ? "data-post-username='" . $_SESSION['username'] . "' " : "") . "data-post-id='" . $row['PostID'] . " 'class='btn upvote-btn btn-light' name='upvote-btn' title='Likes'><i class='bi bi-arrow-up-square" . ($UpvotedByCurrentUser ? '-fill liked' : ' unliked') . "'></i> <span id='upvotes-" . $row['PostID'] . "' class='counter-" . $row['PostID'] . "'> ". $row['upvotes'] . "</span>
+      </button>
+      <button type='button' class='btn btn-light' data-toggle='popover' data-placement='bottom' title='Comments'><i class='bi bi-chat-left-dots-fill'></i></button>
+      <button type='button' class='btn btn-light' title='Share'><i class='bi bi-share-fill'></i></button>
+    </div>
+  </div>
+  <div class='card-footer'>
+    <small class='text-muted'>Comments:</small>
+    <ul class='list-group mt-2'>
+      <li class='list-group-item'><strong>Username1:</strong> This is a comment for the post</li>
+      <li class='list-group-item'><strong>Username2:</strong> This is another comment for the post</li>
+      <li class='list-group-item'><strong>Username3:</strong> Here's a third comment for the post</li>
+    </ul>
+  </div>
+</div>
+
         ";
-
-
       }
 
-      
+    //   <!-- Popover content -->
+    //           <div id='comments-popover-content' class='d-none'>
+    //             <ul>
+    //               <li>Comment 1</li>
+    //               <li>Comment 2</li>
+    //               <li>Comment 3</li>
+    //             </ul>
+    //           </div>
     }
     ?>
-
-  <!-- <button type="button" class="btn btn-info fixed-top" name='morePosts' id='morePosts'>More Posts</button> -->
-
-
   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
   <script> 
