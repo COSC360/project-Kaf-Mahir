@@ -132,8 +132,7 @@ exit();
           <th>Username</th>
           <th>Email 1</th>
           <th>Password</th>
-          <th>Verified</th>
-          <th>Token</th>
+          <th>Enabled/Disabled</th>
         </tr>
     </thead>
     <tbody>
@@ -153,8 +152,7 @@ exit();
                   <td>". $row['username'] . "</td>
                   <td>". $row['email']  . "</td>
                   <td>". $row['password']  .  "</td>
-                  <td>". $row['verified']  .  "</td>
-                  <td>". $row['token']  .  "</td>
+                  <td><button>Enable</button><button>Disable</button></td>
                 </tr>
               ";
             }
