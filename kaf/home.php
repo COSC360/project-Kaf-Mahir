@@ -150,16 +150,14 @@ exit();
         <hr>
 
 <!-- Button trigger modal -->
-<div class="container">
-  
-              <?php //only show if logged in. For now.
-                if (isset($_SESSION['username'])) { //if user logged in
-                echo "<button type='button' class='btn btn-dark fixed-bottom p-2' width='100px' height='100px' data-toggle='modal' data-target='#create-post-modal'>Create New Post <i class='bi bi-pencil-square'></i></button>";
-                } else {
-                  //if replacing
-                }
-              ?>
-</div>
+
+  <?php //only show if logged in. For now.
+    if (isset($_SESSION['username'])) { //if user logged in
+    echo "<button type='button' class='btn btn-dark p-2' width='100px' height='100px' data-toggle='modal' data-target='#create-post-modal'>Create New Post <i class='bi bi-pencil-square'></i></button>";
+    } else {
+      //if replacing
+    }
+  ?>
 <!-- Modal -->
 <div class="modal fade" id="create-post-modal" tabindex="-1" role="dialog" aria-labelledby="create-post-modal-title" aria-hidden="true">
   <div style="margin-top: 150px" class="modal-dialog" role="document">
