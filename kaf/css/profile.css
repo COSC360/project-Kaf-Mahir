@@ -6,16 +6,13 @@
     margin-top: 150px;
 }
 
-.interactions ul {
-    display: flex;
-    justify-content: flex-end;
-    background-color: rgba(90, 126, 138, 0.5);
-    gap: 15px;
+.bio {
+    background-color: rgba(28, 60, 71, 0.5);
+    padding: 1em;
+    margin-bottom: 1em;
 }
 
-.interactions ul li {
-    list-style: none;
-}
+
 .navbar-brand img { 
     background-color: white;
     padding: 2px;
@@ -28,5 +25,17 @@
 .navbar-nav {
     display: flex; 
 }
+
+.profile-banner {
+    background-image: url("../img/nature-3082832.jpg");
+    background-size: cover;
+    background-position: center;
+    background-position-y: -20px;
+    padding: 1em;
+    color: white;
+
+    height: 400px;
+}
+
 
 

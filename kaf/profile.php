@@ -59,42 +59,47 @@
             </div>
         </div>
     </nav>
-        <div class="container myBlogs">
-            <div class="account col-lg-8 offset-lg-2">
-                <h2>My Posts</h2>
-                <div class="interactions">
-                    <ul>
-                        <li>upvotes</li>
-                        <li>followers</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-8 offset-lg-2">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">Discussion Title</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod justo vel lacus suscipit, in bibendum lectus posuere. Proin feugiat, libero auctor pharetra tristique, enim justo hendrerit mauris, vel maximus sapien purus vel justo.</p>
-                            <p class="card-text"><small class="text-muted">Posted by User1 on March 22, 2023</small></p>
-                        </div>
-                    </div>
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">Discussion Title</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod justo vel lacus suscipit, in bibendum lectus posuere. Proin feugiat, libero auctor pharetra tristique, enim justo hendrerit mauris, vel maximus sapien purus vel justo.</p>
-                            <p class="card-text"><small class="text-muted">Posted by User2 on March 21, 2023</small></p>
-                        </div>
-                    </div>
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">Discussion Title</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod justo vel lacus suscipit, in bibendum lectus posuere. Proin feugiat, libero auctor pharetra tristique, enim justo hendrerit mauris, vel maximus sapien purus vel justo.</p>
-                            <p class="card-text"><small class="text-muted">Posted by User3 on March 20, 2023</small></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="container myBlogs">
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="profile-banner">
+        <h2>UserName</h2>
+        <h4>First Last Name</h4>
+        <p>Profile picture here</p>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="account">
+        <h2>My Posts</h2>
+        <div class="bio card-body">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod libero necessitatibus omnis magnam blanditiis laudantium ipsam facere architecto illum aliquam itaque odit hic recusandae corporis, iure molestias? Blanditiis, enim labore.</p>
         </div>
+      </div>
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Discussion Title</h5>
+          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod justo vel lacus suscipit, in bibendum lectus posuere. Proin feugiat, libero auctor pharetra tristique, enim justo hendrerit mauris, vel maximus sapien purus vel justo.</p>
+          <p class="card-text"><small class="text-muted">Posted by User1 on March 22, 2023</small></p>
+        </div>
+      </div>
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Discussion Title</h5>
+          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod justo vel lacus suscipit, in bibendum lectus posuere. Proin feugiat, libero auctor pharetra tristique, enim justo hendrerit mauris, vel maximus sapien purus vel justo.</p>
+          <p class="card-text"><small class="text-muted">Posted by User2 on March 21, 2023</small></p>
+        </div>
+      </div>
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Discussion Title</h5>
+          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod justo vel lacus suscipit, in bibendum lectus posuere. Proin feugiat, libero auctor pharetra tristique, enim justo hendrerit mauris, vel maximus sapien purus vel justo.</p>
+          <p class="card-text"><small class="text-muted">Posted by User3 on March 20, 2023</small></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
  
 

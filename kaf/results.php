@@ -1,5 +1,4 @@
 <?php
-require '../config/db.php';
 require '../controllers/auth.php';
 ?>
 
