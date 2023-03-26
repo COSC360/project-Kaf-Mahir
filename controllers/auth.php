@@ -132,7 +132,7 @@ if (isset($_POST["login-btn"])) {
       //login user
       $_SESSION['email'] = $user['email'];
       $_SESSION['username'] = $user['username'];
-      $_SESSION['verified'] = $user['verified'];
+      // $_SESSION['verified'] = $user['verified'];
       $_SESSION['msg'] = 'You are now logged in';
       $_SESSION['alert-class'] = 'p-lg-5 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3';
       header("Location: home.php");
@@ -154,26 +154,20 @@ if(count($errors) > 0) {
 
 
 //logout
-logout('login.php');
-
-function logout($location) {
   if (isset($_GET["logout"])) {
+    if (isset($_SESSION['username'])) {
+    session_unset();  //unset all session variables
     session_destroy();
-    unset($_SESSION['username']);
-    unset($_SESSION['email']);
-    unset($_SESSION['verified']);
-    header("Location: ". $location);
     exit();
+    // unset($_SESSION['verified']);
+    }
   }
-}
-
 
 
 
   
 
 //create post
-
 if (isset($_POST["create-post-btn"])) {
   
   // Get user inputs from form
@@ -195,6 +189,51 @@ if (isset($_POST["create-post-btn"])) {
     $statement -> execute();
     $statement -> close();
   }
+
+
+
+//login function
+function loginUser($conn, $username, $password) {
+  $userExists = userExists($conn, $username, $username);
+
+  if ($userExists === false) { 
+    $errors['username'] = 'Username/Email Not Found';
+    header("Location: login.php");
+    exit();
+}
+
+$hashed_password = $userExists['password'];
+if (password_verify($password, $hashed_password) === false) {
+  $errors['wrong'] = 'Wrong Email/Username or Password';
+    header("Location: login.php");
+    exit();
+  } else if (count($errors) === 0) {
+    session_start();
+    $_SESSION['email'] = $userExists['email'];
+    $_SESSION['username'] = $username;
+    $_SESSION['msg'] = 'You are now logged in';
+    $_SESSION['alert-class'] = 'p-lg-5 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3';
+    header("Location: home.php");
+    exit();
+  }
+
+}
+function userExists($conn, $username, $email) {
+  $query = "SELECT * FROM users WHERE username=? AND email=? LIMIT 1";
+  $statement = $conn -> prepare($query);
+  $statement -> bind_param('ss', $username, $email);
+  if ($statement -> execute()) {
+    $result = $statement->get_result();
+    if ($user = $result -> fetch_assoc()) {
+      return $user;
+    } else {
+      return false;
+    }
+    $statement -> close();
+  }
+  
+ 
+}
 
   
 }
