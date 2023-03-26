@@ -50,7 +50,6 @@ if (!empty($msg)) {
                           if (isset($_POST['login-btn']) && count($errors) > 0): 
                         ?>
                           <div class="alert alert-danger">
-                            <?php echo "<p> " . count($errors) . "</p>"; ?>
                             <?php foreach($errors as $error): ?>
                               <li><?php echo $error; ?></li>
                             <?php endforeach; ?>
