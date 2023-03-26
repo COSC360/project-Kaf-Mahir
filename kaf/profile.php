@@ -69,7 +69,7 @@ require '../controllers/auth.php';
   
               <?php //only show if logged in. For now.
                 if (isset($_SESSION['username'])) { //if user logged in
-                echo "<button type='button' class='btn btn-dark fixed-bottom p-5' width='100px' height='100px' data-toggle='modal' data-target='#create-post-modal'>Create New Post <i class='bi bi-pencil-square'></i></button>";
+                echo "<button type='button' class='btn btn-dark fixed-bottom p-3' width='100px' height='100px' data-toggle='modal' data-target='#create-post-modal'>Create New Post <i class='bi bi-pencil-square'></i></button>";
                 } else {
                   //if replacing
                 }
@@ -105,13 +105,12 @@ require '../controllers/auth.php';
   </div>
 </div>
 </var>
-    <div class="container myBlogs">
+    <div class="container myBlogs mb-5">
   <div class="row">
     <div class="col-lg-4">
       <div class="profile-banner">
-        <h2>UserName</h2>
-        <h4>First Last Name</h4>
-      </div>
+        <h2><?php echo $_SESSION['username']?></h2>
+     </div>
     </div>
     <div class="col-lg-6">
       <div class="account">
