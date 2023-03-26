@@ -2,6 +2,15 @@
 require('../controllers/auth.php');
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
+
+$msg = $_GET['msg'] ?? '';
+if (!empty($msg)) {
+  $alert_class = 'alert-warning'; // Bootstrap class for warning alert
+  $message = htmlspecialchars($msg);
+  echo "<div class='alert $alert_class'>$message</div>";
+}
+
+
 ?>
 
 <!DOCTYPE html>
