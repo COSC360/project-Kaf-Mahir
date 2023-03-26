@@ -55,6 +55,8 @@ exit();
 
 
 
+
+
 ?>
 
 
@@ -145,6 +147,14 @@ exit();
     <div class="container dashboard">
     <div class="row center">
       <div class="col-md-8 col-md-offset-2">
+        <?php 
+          $msg = $_GET['msg'] ?? '';
+          if (!empty($msg)) {
+            $alert_class = 'alert-warning'; // Bootstrap class for warning alert
+            $message = htmlspecialchars($msg);
+            echo "<div class='alert $alert_class'>$message</div>";
+          }
+        ?>
         <h1>Trending Thoughts</h1>
         <p>Join the conversation and share your thoughts on a variety of topics.</p>
         <hr>

@@ -85,12 +85,6 @@ if (isset($_POST["signup-btn"])) {
   }
 }
 
-// If there are errors, display them to user
-if(count($errors) > 0) {
-  foreach($errors as $error) {
-    echo $error . '<br>';
-  }
-}
 
 
 
@@ -145,12 +139,7 @@ if (isset($_POST["login-btn"])) {
 }
 
 
-// print errors and number of errors to user
-if(count($errors) > 0) {
-  foreach($errors as $error) {
-    echo $error. '<br>';
-  }
-} 
+
 
 
 //logout
@@ -190,7 +179,7 @@ if (isset($_POST["create-post-btn"])) {
     $statement -> close();
   }
 
-
+ 
 
 //login function
 function loginUser($conn, $username, $password) {

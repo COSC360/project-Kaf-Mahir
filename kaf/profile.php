@@ -2,6 +2,9 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 require '../controllers/auth.php';
+require 'load-profile.php';
+    
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +26,8 @@ require '../controllers/auth.php';
                 <img 
                 class="d-inline-block align-top"
                 id="proPic" 
-                src="img/propic.jpg" alt="profile photo" 
+                
+                src="<?php if (isset($profile_pic)) echo $profile_pic; ?>" alt="profile photo" 
                 width="80" height="80">
             </a>
             <button 
@@ -105,14 +109,23 @@ require '../controllers/auth.php';
   <div class="row">
     <div class="col-lg-4">
       <div class="profile-banner">
-        <h2><?php echo $_SESSION['username']?></h2>
+        <h2><?php echo $_SESSION['username'];?></h2>
+        <h4><?php echo $full_name;?></h4>
      </div>
     </div>
     <div class="col-lg-6">
+        <?php
+        $msg = $_GET['msg'] ?? '';
+        if (!empty($msg)) {
+          $alert_class = 'alert-success'; // Bootstrap class for warning alert
+          $message = htmlspecialchars($msg);
+          echo "<div class='alert $alert_class'>$message</div>";
+        }
+        ?>
       <div class="account">
         <h2>My Posts</h2>
-        <div class="bio card-body">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod libero necessitatibus omnis magnam blanditiis laudantium ipsam facere architecto illum aliquam itaque odit hic recusandae corporis, iure molestias? Blanditiis, enim labore.</p>
+        <div class="bio card-body rounded-2">
+            <p> <?php echo $bio; ?></p>
         </div>
       </div>
       <div class="card mb-3">

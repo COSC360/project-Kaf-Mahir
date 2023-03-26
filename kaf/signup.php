@@ -52,7 +52,6 @@ require_once '../controllers/auth.php';
             <!-- Show Input Errors To User-->
             <?php if (count($errors) > 0): ?>
               <div class="alert alert-danger">
-                <?php echo "<p> " . count($errors) . "</p>";?>
                 <?php foreach($errors as $error): ?>
                   <li><?php echo $error;?></li>
                   <?php endforeach; ?>
