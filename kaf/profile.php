@@ -1,3 +1,8 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+require '../controllers/auth.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,13 +64,53 @@
             </div>
         </div>
     </nav>
+
+    <div class="container">
+  
+              <?php //only show if logged in. For now.
+                if (isset($_SESSION['username'])) { //if user logged in
+                echo "<button type='button' class='btn btn-dark fixed-bottom p-5' width='100px' height='100px' data-toggle='modal' data-target='#create-post-modal'>Create New Post <i class='bi bi-pencil-square'></i></button>";
+                } else {
+                  //if replacing
+                }
+              ?>
+    </div>
+<!-- Modal -->
+<div class="modal fade" id="create-post-modal" tabindex="-1" role="dialog" aria-labelledby="create-post-modal-title" aria-hidden="true">
+  <div style="margin-top: 150px" class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="create-post-modal-title">Create New Post</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method='POST' action='profile.php' name='postForm' id='postForm'>
+          <div class="form-group">
+            <label for="post-title">Title</label>
+            <input type="text" class="form-control" id="postTitle"name='postTitle'placeholder="Enter post title" required>
+          </div>
+          <div class="form-group">
+            <label for="post-content">Content</label>
+            <textarea class="form-control" id="postContent" rows="3" name='postContent' placeholder="Enter post content" required></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button form='postForm' type="submit" name='create-post-btn' class="btn btn-primary">Create Post</button>
+      </div>
+    </div>
+  </div>
+</div>
+</var>
     <div class="container myBlogs">
   <div class="row">
     <div class="col-lg-4">
       <div class="profile-banner">
         <h2>UserName</h2>
         <h4>First Last Name</h4>
-        <p>Profile picture here</p>
       </div>
     </div>
     <div class="col-lg-6">
@@ -76,26 +121,57 @@
         </div>
       </div>
       <div class="card mb-3">
-        <div class="card-body">
-          <h5 class="card-title">Discussion Title</h5>
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod justo vel lacus suscipit, in bibendum lectus posuere. Proin feugiat, libero auctor pharetra tristique, enim justo hendrerit mauris, vel maximus sapien purus vel justo.</p>
-          <p class="card-text"><small class="text-muted">Posted by User1 on March 22, 2023</small></p>
+      <?php 
+    if (isset($_SESSION['username'])) {
+    $username = mysqli_real_escape_string($conn, $_SESSION['username']);
+    }
+
+    $query = "SELECT * FROM posts WHERE AuthorUsername like '%$username%' ORDER BY DateCreated DESC";
+
+    $result = mysqli_query($conn,$query);
+    if (mysqli_num_rows($result) > 0 ) {
+      while ($row = mysqli_fetch_assoc($result)) {
+        // $result_exist = mysqli_query("SELECT * FROM upvotes WHERE postID =$row['PostID'] AND Username =$_SESSION['username']");
+        $postID = mysqli_real_escape_string($conn, $row['PostID']);
+        $UpvotedByCurrentUser = false; //Default is false
+
+        $query = "SELECT * FROM upvotes WHERE postID = $postID AND Username = '$username'";
+        $result_exist = mysqli_query($conn, $query);
+        if (mysqli_num_rows($result_exist) > 0) {
+          $UpvotedByCurrentUser = true;
+        }
+        echo "
+        <div class='card mb-3'>
+          <div class='card-body'>
+            <h5 class='card-title'>" . $row['Title'] . "</h5>
+            <p class='card-text'>" . $row['Body'] . "</p>
+            <p class='card-text'><small class='text-muted'> Posted by " . $row['AuthorUsername'] . " on " . $row['DateCreated'] . "</small></p>
+            <div class='dropdown'>
+              <!-- Button trigger popover -->
+              <button type='button' " . (isset($_SESSION['username']) ? "data-post-username='" . $_SESSION['username'] . "' " : "") . "data-post-id='" . $row['PostID'] . " 'class='btn upvote-btn btn-light' name='upvote-btn' title='Likes'><i class='bi bi-arrow-up-square" . ($UpvotedByCurrentUser ? '-fill liked' : ' unliked') . "'></i> <span id='upvotes-" . $row['PostID'] . "' class='counter-" . $row['PostID'] . "'> ". $row['upvotes'] . "</span>
+              </button>
+              <button type='button' class='btn btn-light' data-toggle='popover' data-placement='bottom' title='Comments'><i class='bi bi-chat-left-dots-fill'></i></button>
+              <button type='button' class='btn btn-light' title='Share'><i class='bi bi-share-fill'></i></button>
+              
+              <!-- Popover content -->
+              <div id='comments-popover-content' class='d-none'>
+                <ul>
+                  <li>Comment 1</li>
+                  <li>Comment 2</li>
+                  <li>Comment 3</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="card mb-3">
-        <div class="card-body">
-          <h5 class="card-title">Discussion Title</h5>
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod justo vel lacus suscipit, in bibendum lectus posuere. Proin feugiat, libero auctor pharetra tristique, enim justo hendrerit mauris, vel maximus sapien purus vel justo.</p>
-          <p class="card-text"><small class="text-muted">Posted by User2 on March 21, 2023</small></p>
-        </div>
-      </div>
-      <div class="card mb-3">
-        <div class="card-body">
-          <h5 class="card-title">Discussion Title</h5>
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod justo vel lacus suscipit, in bibendum lectus posuere. Proin feugiat, libero auctor pharetra tristique, enim justo hendrerit mauris, vel maximus sapien purus vel justo.</p>
-          <p class="card-text"><small class="text-muted">Posted by User3 on March 20, 2023</small></p>
-        </div>
-      </div>
+        ";
+
+
+      }
+
+      
+    }
+    ?>
     </div>
   </div>
 </div>
