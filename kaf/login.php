@@ -83,12 +83,17 @@ if (!empty($msg)) {
                     <a href="#!" class="text-dark"><i class="fab fa-twitter fa-lg mx-4 px-2"></i></a>
                     <a href="#!" class="text-dark"><i class="fab fa-google fa-lg"></i></a>
                   </div>
+                  
                   <div>
                     <p class="mb-0">
                       Don't have an account?
                       <a href="signup.php" class="text-dark-50 fw-bold">Sign Up</a>
-                    </p>
+                      </p>
                   </div>
+                  <div>
+                  <a href="home.php" class="text-dark-50 fw-bold">Enter without login</a>
+                  </div>
+                  
                 </div>
               </div>
             </div>

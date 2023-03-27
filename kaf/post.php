@@ -251,8 +251,8 @@ exit();
     } else {
       echo '<form method="POST" action="post.php?postID=' . $_GET['postID'] . '>
                   <div class="form-floating">
-                      <textarea disabled class="form-control" name="comment" id="floatingTextarea2" placeholder="Enter Comment Here ..." required></textarea>
-                      <label for="floatingTextarea2">Login before adding comments</label>
+                      <textarea disabled class="form-control" name="comment" id="floatingTextarea2" placeholder="Login before adding comments" required></textarea>
+                      <label for="floatingTextarea2"></label>
                   </div>
               </form>';
     }
