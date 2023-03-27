@@ -82,7 +82,7 @@ exit();
                 src="img/propic.jpg" alt="profile photo" 
                 width="80" height="80">
             </a> -->
-            <h2>administration.</h2>
+            <h2>administration.</h2>  
             <button 
                 type="button"
                 data-bs-toggle="collapse"
@@ -99,8 +99,7 @@ exit();
                 id="navbarNav">
                 <form action="results.php" class="d-flex ms-auto" method="POST">
                     <input type="search" name="search" placeholder="Search..." class="form-control me 2">
-                    <button class="btn btn-outline-info bi bi-search" type="submit" name="submit-search"></button>
-                    </button>
+                    <button class="btn btn-outline-info bi bi-search" type="submit" name="submit-search"></button></button>
                 </form>
 
                 <ul class="navbar-nav ms-auto align-items-center">
@@ -108,10 +107,27 @@ exit();
                         <a href="home.php" class="nav-link  "><h4><i class="bi bi-house"></i></h4></a>
                     </li>    
                 <li class="nav-item  ">
-                        <a href="login.php?logout=1" class="nav-link  "><h4><i class="bi bi-box-arrow-left"></i></h4></a>
+                        <a href="login.php?logout" class="nav-link"><h4><i class='bi bi-box-arrow-right'></i></h4></a>
+
                     </li>
                     <li class="nav-item ">
-                        <a href="setting.php" class="nav-link"><h4><i class="bi bi-gear"></h4></i></a>
+                      <?php 
+                          if (isset($_SESSION['username'])) {
+                            echo "<a href='./setting.php' class='nav-link'><h4><i class='bi bi-gear'></i></h4></a>";
+                          } else {
+                            //what to show when user is not logged in instead of settings. if anything
+                          }                    
+                        ?>
+                    </li>
+
+                     <li class="nav-item ">
+                      <?php 
+                          if (isset($_SESSION['username'])) {
+                            echo "<a href='./home.php?logout' class='nav-link logout-link'><h4><i class='bi bi-x-square'></i></h4></a>";
+                          } else {
+                            //what to show when user is not logged in instead of settings. if anything
+                          }                    
+                        ?>
                     </li>
                 </ul>
 
