@@ -71,7 +71,7 @@ exit();
     <title>Home</title>
 </head>
 <body >
-    <nav class="navbar fixed-top navbar-expand-md navbar-light" style="background-color: rgba(255,255,255, 0.85)">
+<nav class="navbar fixed-top navbar-expand-md navbar-light" style="background-color: rgba(255,255,255, 0.85)">
         <div class="container">
           <?php 
               if (isset($_SESSION['username'])) { //if user logged in
@@ -115,7 +115,7 @@ exit();
                         <a href="home.php" class="nav-link  "><h4><i class="bi bi-house"></i></h4></a>
                     </li>    
                 <li class="nav-item  ">
-                        <a href="login.php?logout" class="nav-link"><h4><i class="bi bi-box-arrow-left"></i></h4></a>
+                        <a href="login.php?logout" class="nav-link"><h4><i class='bi bi-box-arrow-right'></i></h4></a>
 
                     </li>
                     <li class="nav-item ">
@@ -131,7 +131,7 @@ exit();
                      <li class="nav-item ">
                       <?php 
                           if (isset($_SESSION['username'])) {
-                            echo "<a href='./home.php?logout' class='nav-link logout-link'><h4><i class='bi bi-box-arrow-right'></i></h4></a>";
+                            echo "<a href='./home.php?logout' class='nav-link logout-link'><h4><i class='bi bi-x-square'></i></h4></a>";
                           } else {
                             //what to show when user is not logged in instead of settings. if anything
                           }                    
@@ -184,9 +184,6 @@ exit();
 </div> -->
 <div class="row">
   <div class="col-lg-12">
-  
-
-  ?>
   <!-- Load Post Card -->
     <?php 
     if (isset($_SESSION['username'])) {
