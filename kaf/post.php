@@ -2,7 +2,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 require '../controllers/auth.php';
-
+require 'load-profile.php';
 
 if (isset($_POST['post_id'])) { //if ajax request triggered
   if (isset($_SESSION['username'])){ //if user logged in
@@ -81,7 +81,7 @@ exit();
                   <img 
                   class='d-inline-block align-top'
                   id='proPic' 
-                  src='img/propic.jpg' alt='profile photo'
+                  src=". $profile_pic . " alt='profile photo'
                   width='80' height='80'>
               </a>";
                 } else {
@@ -146,16 +146,13 @@ exit();
     <div class="row center">
       <div class="col-md-8 col-md-offset-2">
 
+        
+
 <!-- Button trigger modal -->
 <!-- <div class="container">
   
-              <?php //only show if logged in. For now.
-                if (isset($_SESSION['username'])) { //if user logged in
-                echo "<button type='button' class='btn btn-dark  p-2' width='100px' height='100px' data-toggle='modal' data-target='#create-post-modal'>Create New Post <i class='bi bi-pencil-square'></i></button>";
-                } else {
-                  //if replacing
-                }
-              ?>
+
+
 </div>
 <div class="modal fade" id="create-post-modal" tabindex="-1" role="dialog" aria-labelledby="create-post-modal-title" aria-hidden="true">
   <div style="margin-top: 150px" class="modal-dialog" role="document">
@@ -187,13 +184,16 @@ exit();
 </div> -->
 <div class="row">
   <div class="col-lg-12">
+  
+
+  ?>
   <!-- Load Post Card -->
     <?php 
     if (isset($_SESSION['username'])) {
     $username = mysqli_real_escape_string($conn, $_SESSION['username']);
     }
 
-    $query = "SELECT * FROM posts WHERE postID = ". $_GET['postID'];
+    $query = "SELECT * FROM posts WHERE PostID = ". $_GET['postID'];
 
     $result = mysqli_query($conn,$query);
     if (mysqli_num_rows($result) > 0 ) {
@@ -222,29 +222,59 @@ exit();
       <button type='button' class='btn btn-light' title='Share'><i class='bi bi-share-fill'></i></button>
     </div>
   </div>
-  <div class='card-footer'>
-    <small class='text-muted'>Comments:</small>
-    <ul class='list-group mt-2'>
-      <li class='list-group-item'><strong>Username1:</strong> This is a comment for the post</li>
-      <li class='list-group-item'><strong>Username2:</strong> This is another comment for the post</li>
-      <li class='list-group-item'><strong>Username3:</strong> Here's a third comment for the post</li>
-    </ul>
-  </div>
-</div>
+  <div class='card-footer'>"; 
+  // <!-- Generate Comments -->
+    $comment_query = "SELECT * FROM comments WHERE PostID = ". $_GET['postID'];
+    $comment_result = mysqli_query($conn,$comment_query);
+    echo " <small class='text-muted'>Comments:</small>
+    <ul class='list-group mt-2'>";
+    while ($comment_row = mysqli_fetch_assoc($comment_result)) {
+      echo "<li class='list-group-item'><strong>" .$comment_row['username'] . ": </strong>" . $comment_row['content'] . "   ------------------ <em>" .$comment_row['dateCreated'] . "</em></li>
+    
 
         ";
+    } 
+    echo "</ul>
+    </div>
+  </div>";
       }
 
-    //   <!-- Popover content -->
-    //           <div id='comments-popover-content' class='d-none'>
-    //             <ul>
-    //               <li>Comment 1</li>
-    //               <li>Comment 2</li>
-    //               <li>Comment 3</li>
-    //             </ul>
-    //           </div>
+
+      if (isset($_SESSION['username'])) { 
+        echo '<form name="commentform" method="POST" action="post.php?postID=' . $_GET['postID'] . '">
+                  <div class="form-floating">
+                      <textarea class="form-control" name="comment" id="comment" placeholder="Enter Comment Here ..." required></textarea>
+                      <label for="comment">Enter Comment Here</label>
+                  </div>
+                  <button type="submit" name="post-comment" id="post-comment" class="btn btn-primary btn-sm mx-auto p-1 m-2" form="commentform">Post Comment</button>
+              </form>';
+    } else {
+      echo '<form method="POST" action="post.php?postID=' . $_GET['postID'] . '>
+                  <div class="form-floating">
+                      <textarea disabled class="form-control" name="comment" id="floatingTextarea2" placeholder="Enter Comment Here ..." required></textarea>
+                      <label for="floatingTextarea2">Login before adding comments</label>
+                  </div>
+              </form>';
+    }
+
+    if (isset($_POST['post-comment'])) {
+      $username = $_SESSION['username'];
+      $postID = $_GET['postID'];
+      $content = $_POST['comment'];
+
+      $stmt = mysqli_prepare($conn, "INSERT INTO comments (username, PostID, content) VALUES (?, ?, ?)");
+      mysqli_stmt_bind_param($stmt, 'sis', $username, $postID, $content);
+      mysqli_stmt_execute($stmt);
+
+      mysqli_stmt_close($stmt);
+    }
+
+  
+
     }
     ?>
+
+   
   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
   <script> 

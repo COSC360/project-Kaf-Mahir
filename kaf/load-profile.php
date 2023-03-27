@@ -29,6 +29,21 @@ if (file_exists($user_pic)) {
     $profile_pic = $default_pic;
 }
 
+if (isset($_FILES['inputPic']['tmp_name'])) {
+  $temp_file = $_FILES['inputPic']['tmp_name'];
+  $file_name = $_SESSION['username']. ".jpg";
+  $file_path = "img/" .$file_name;
+  if (move_uploaded_file($temp_file, $file_path)) {
+    echo "image moved successfully";
+    $msg = "Profile successfully updated";
+    header("Location: profile.php?msg=" . urlencode($msg));
+    exit;
+  } else {
+    echo "image not moved";
+  }
+
+}
+
 //validate extension
 function validateFile() {
 isset($_FILES['inputPic']['name']) ? $inputPic = $_FILES['inputPic']['name'] : $inputPic = null;

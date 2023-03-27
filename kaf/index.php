@@ -34,6 +34,7 @@ if(!isset($_SESSION['username'])) {
                 <div class="mb-md-5 mt-md-4 pb-5">
                   <h3>Welcome, <?php echo $_SESSION['username']; ?></h3>
                   <a class="btn btn-primary" href="index.php?logout=1" role="button">Logout</a>
+                  <a class="btn btn-info" href="home.php" role="button">Home</a>
                   <div class="alert <?php echo $_SESSION['alert-class']; ?>">
                   <?php if(isset($_SESSION['msg'])): ?>
                   <?php echo $_SESSION['msg'];
@@ -47,6 +48,7 @@ if(!isset($_SESSION['username'])) {
                 </div>
                 <div class='alert alert-warning p-lg-4'>
                     Check your email for the verification code we just sent you at <strong><?php echo $_SESSION['email']; ?></strong>
+                    <br><strong><em>To Be Implemented</em></strong>
                   </div>
               </div>
             </div>

@@ -6,14 +6,11 @@ require 'load-profile.php';
  
  if (isset($_POST['save-profile']) && validateFile()) {
   if (isset($_SESSION['username'])) {
-    echo 'true1';
     $username = $_SESSION['username'];
-    echo $username;
     $full_name = $_POST['inputName'];
-    echo $full_name;
     $bio = $_POST['inputBio'];
-    echo $bio;
 
+    if (!empty($full_name && !empty($bio))) {
     //Check if username already has profile information
     $check_query = "SELECT * FROM `profiles` WHERE `username` = '$username'";
     $result = mysqli_query($conn, $check_query);
@@ -25,7 +22,6 @@ require 'load-profile.php';
         exit;
     }
     } else {
-      echo 'yo what';
     $insert_query = "INSERT INTO profiles (username, full_name, bio) values (?, ?, ?)";
     $statement = $conn -> prepare($insert_query);
     $statement -> bind_param('sss', $username, $full_name, $bio);
@@ -40,6 +36,7 @@ require 'load-profile.php';
 }
 }
 }
+ }
 
 ?>
 <!DOCTYPE html>
@@ -65,7 +62,7 @@ require 'load-profile.php';
                 <img 
                 class="d-inline-block align-top"
                 id="proPic" 
-                src="img/propic.jpg" alt="profile photo" 
+                src="<?php echo $profile_pic; ?>" alt="profile photo" 
                 width="80" height="80">
             </a>
             <button 
@@ -148,7 +145,7 @@ require 'load-profile.php';
                   </div> -->
                 <div class="form-group">
                   <label class="mt-2" for="inputPic">Profile Image</label>
-                  <input type="file" class="form-control" id="inputPic" name='inputPic'>
+                  <input type="file" class="form-control" id="inputPic" name='inputPic' accept= "image/*">
                 </div>
                   <button type="submit" name="save-profile" class="btn btn-primary mt-3">Save Changes</button>
                 </form>

@@ -27,7 +27,7 @@ require 'load-profile.php';
                 class="d-inline-block align-top"
                 id="proPic" 
                 
-                src="<?php if (isset($profile_pic)) echo $profile_pic; ?>" alt="profile photo" 
+                src="<?php echo $profile_pic; ?>" alt="profile photo" 
                 width="80" height="80">
             </a>
             <button 

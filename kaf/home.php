@@ -2,7 +2,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 require '../controllers/auth.php';
-
+require 'load-profile.php';
 
 if (isset($_POST['post_id'])) { //if ajax request triggered
   if (isset($_SESSION['username'])){ //if user logged in
@@ -76,7 +76,7 @@ exit();
                   <img 
                   class='d-inline-block align-top'
                   id='proPic' 
-                  src='img/propic.jpg' alt='profile photo'
+                  src=". $profile_pic . " alt='profile photo'
                   width='80' height='80'>
               </a>";
                 } else {
@@ -206,7 +206,6 @@ exit();
     $result = mysqli_query($conn,$query);
     if (mysqli_num_rows($result) > 0 ) {
       while ($row = mysqli_fetch_assoc($result)) {
-        // $result_exist = mysqli_query("SELECT * FROM upvotes WHERE postID =$row['PostID'] AND Username =$_SESSION['username']");
         $postID = mysqli_real_escape_string($conn, $row['PostID']);
         $UpvotedByCurrentUser = false; //Default is false
 
