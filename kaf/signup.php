@@ -99,7 +99,10 @@ require_once '../controllers/auth.php';
 
               <!-- Register buttons -->
               <div class="text-center">
-                <p>or sign up with:</p>
+                <p>or</p>
+                <div>
+                  <a href="home.php" class="text-dark-50 fw-bold">Enter without login</a>
+                  </div>
                 <button type="button" class="btn btn-link btn-floating mx-1">
                   <i class="fab fa-facebook-f"></i>
                 </button>

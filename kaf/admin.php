@@ -4,56 +4,13 @@ ini_set('display_errors', '1');
 require '../controllers/auth.php';
 
 
-if (isset($_POST['post_id'])) { //if ajax request triggered
-  if (isset($_SESSION['username'])){ //if user logged in
-    try {
-      $username = $_SESSION['username'];
-      $post_id = $_POST['post_id'];
-      $result = mysqli_query($conn, "SELECT * FROM posts WHERE PostID = $post_id");
-      $row = mysqli_fetch_assoc($result);
-      $n = $row['upvotes'];
-       // Check if the user has already liked the post
-      $upvoted_query = "SELECT * FROM upvotes WHERE PostID = '$post_id' AND Username = '$username'";
-      $upvoted_result = mysqli_query($conn, $upvoted_query);
-      if (mysqli_num_rows($upvoted_result) > 0) {
-        // The user has already liked the post, so remove the like
-        $delete_query = "DELETE FROM upvotes WHERE PostID = '$post_id' AND Username = '$username'";
-        mysqli_query($conn, $delete_query);
-        mysqli_query($conn, "UPDATE posts SET upvotes=$n-1 WHERE PostID = $post_id");
-      } else {
-        // The user has not liked the post, so add the like
-        $add_query = "INSERT INTO upvotes (PostID, Username) VALUES ('$post_id', '$username')";
-        if (mysqli_query($conn, $add_query)) {
-        //run second query only if first one succeeded
-        mysqli_query($conn, "UPDATE posts SET upvotes=$n+1 WHERE PostID = $post_id");
-      }
-    }
+if (isset($_POST['toggle_status'])) {
+  $username = mysqli_real_escape_string($conn, $_POST['username']);
+  $status = mysqli_real_escape_string($conn, $_POST['status']);
 
-    $stmt = $conn->prepare("SELECT COUNT(*) FROM upvotes WHERE PostID = ?");
-    $stmt->bind_param("i", $post_id);
-    $stmt->execute();
-    
-    $result = $stmt->get_result();
-    $row = mysqli_fetch_array($result);
-    
-    $upvotes = $row[0];
-    
-    // Return the updated upvote count as a JSON object
-    $response = array('upvotes' => $upvotes);
-    echo json_encode($response);
-    
-      
-  
-    } catch (mysqli_sql_exception $e) {  // If a user tries to upvote a post twice.
-      echo "WOOP WOOP";
-  }
-} else {
-  echo "login";
+  $query = "UPDATE users SET status='$status' WHERE username='$username'";
+  mysqli_query($conn, $query);
 }
-exit();
-}
-
-
 
 ?>
 
@@ -66,8 +23,8 @@ exit();
   <title>Admin Page</title>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="css/admin.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
 </head>
 <body>
@@ -131,7 +88,7 @@ exit();
         <tr>
           <th>Username</th>
           <th>Email 1</th>
-          <th>Password</th>
+          <!-- <th>Password</th> -->
           <th>Enabled/Disabled</th>
         </tr>
     </thead>
@@ -147,17 +104,29 @@ exit();
           $result = mysqli_query($conn,$query);
           if (mysqli_num_rows($result) > 0 ) {
             while ($row = mysqli_fetch_assoc($result)) {
-              echo "     
-                  <tr>
-                  <td>". $row['username'] . "</td>
-                  <td>". $row['email']  . "</td>
-                  <td>". $row['password']  .  "</td>
-                  <td><button>Enable</button><button>Disable</button></td>
-                </tr>
-              ";
-            }
-          }
-          ?>
+            $status = $row['status'];
+            $status_btn_text = $status == 'enabled' ? 'Disable' : 'Enable';
+            $status_btn_class = $status == 'enabled' ? 'btn-danger' : 'btn-success';
+            $status_toggle = $status == 'enabled' ? 'disabled' : 'enabled';
+            echo "     
+            <tr>
+              <td>{$row['username']}</td>
+              <td>{$row['email']}</td>
+              <td>
+                <form method='post'>
+                  <input type='hidden' name='username' value='{$row['username']}' />
+                  <input type='hidden' name='status' value='$status_toggle' />
+                  <button class='btn $status_btn_class' type='submit' name='toggle_status'>$status_btn_text</button>
+                </form>
+              </td>
+            </tr>
+          ";
+        }
+      }
+    ?>
+  </tbody>
+</table>
+</div>
 
   
   <!-- Bootstrap JS -->

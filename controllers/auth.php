@@ -34,7 +34,9 @@ if (isset($_POST["signup-btn"])) {
   if ($password !== $password_conf) {
     $errors['password_conf'] = 'Passwords do not match';
   }
-
+  if ($username === "admin") {
+    $errors['username'] = 'Username cannot be "admin"';
+  }
   // Check if email already exists in database
   $query_email = "SELECT * FROM users WHERE email=? LIMIT 1";
   $statement = $conn -> prepare($query_email);
@@ -104,6 +106,7 @@ if (isset($_POST["login-btn"])) {
     $errors['password'] = 'Password Required';
   }
 
+
   if(count($errors) > 0) {
     foreach($errors as $error) {
       echo $error. '<br>';
@@ -122,15 +125,24 @@ if (isset($_POST["login-btn"])) {
   if (empty($user)) {
     $errors['username'] = 'Username/Email Not Found';
   }
+
+  if ($user['status'] == 'disabled') {
+    $errors['status'] = 'Your Account Has Been Disabled';
+  }
    else if(password_verify($password, $user['password'])) {
       //login user
       $_SESSION['email'] = $user['email'];
       $_SESSION['username'] = $user['username'];
+      if($user['username'] == "admin") {
+      $_SESSION['msg'] = 'You are now logged in as admin';
+      header("Location: admin.php");
+      } else{
       // $_SESSION['verified'] = $user['verified'];
       $_SESSION['msg'] = 'You are now logged in';
       $_SESSION['alert-class'] = 'p-lg-5 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3';
       header("Location: home.php");
       exit();
+      }
 } else {
   $errors['wrong'] = 'Wrong Email/Username or Password';
 }
