@@ -54,17 +54,26 @@ require 'load-profile.php';
     <title>Profile</title>
 </head>
 <body >
-    <nav class="navbar fixed-top navbar-expand-md navbar-light" style="background-color: rgba(255,255,255, 0.85)">
+<nav class="navbar fixed-top navbar-expand-md navbar-light" style="background-color: rgba(255,255,255, 0.85)">
         <div class="container">
-            <a 
-                href="./profile.php" 
-                class="navbar-brand mb-1 h1">
-                <img 
-                class="d-inline-block align-top"
-                id="proPic" 
-                src="<?php echo $profile_pic; ?>" alt="profile photo" 
-                width="80" height="80">
-            </a>
+          <?php 
+              if (isset($_SESSION['username'])) { //if user logged in
+                  echo "<a 
+                  href='./profile.php' 
+                  class='navbar-brand mb-1 h1'>
+                  <img 
+                  class='d-inline-block align-top'
+                  id='proPic' 
+                  src=". $profile_pic . " alt='profile photo'
+                  width='80' height='80'>
+              </a>";
+                } else {
+                  //what to show when user is not logged in instead of profile picture
+                  //use echo
+                }
+        
+            ?>
+            
             <button 
                 type="button"
                 data-bs-toggle="collapse"
@@ -80,20 +89,36 @@ require 'load-profile.php';
                 class="collapse navbar-collapse "  
                 id="navbarNav">
                 <form action="results.php" class="d-flex ms-auto" method="POST">
-                    <input type="search" placeholder="Search..." name="search" class="form-control me 2">
-                    <button class="btn btn-outline-info bi bi-search" type="submit" name="submit-search"></button>
-                    </button>
+                    <input type="search" name="search" placeholder="Search..." class="form-control me 2">
+                    <button class="btn btn-outline-info bi bi-search" type="submit" name="submit-search"></button></button>
                 </form>
 
                 <ul class="navbar-nav ms-auto align-items-center">
                 <li class="nav-item  ">
-                        <a href="./home.php" class="nav-link  "><h4><i class="bi bi-house"></i></h4></a>
+                        <a href="home.php" class="nav-link  "><h4><i class="bi bi-house"></i></h4></a>
                     </li>    
                 <li class="nav-item  ">
-                        <a href="" class="nav-link  "><h4><i class="bi bi-box-arrow-left"></i></h4></a>
+                        <a href="login.php?logout" class="nav-link"><h4><i class='bi bi-box-arrow-right'></i></h4></a>
+
                     </li>
                     <li class="nav-item ">
-                        <a href="./setting.php" class="nav-link active"><h4><i class="bi bi-gear"></h4></i></a>
+                      <?php 
+                          if (isset($_SESSION['username'])) {
+                            echo "<a href='./setting.php' class='nav-link'><h4><i class='bi bi-gear'></i></h4></a>";
+                          } else {
+                            //what to show when user is not logged in instead of settings. if anything
+                          }                    
+                        ?>
+                    </li>
+
+                     <li class="nav-item ">
+                      <?php 
+                          if (isset($_SESSION['username'])) {
+                            echo "<a href='./home.php' class='nav-link logout-link'><h4><i class='bi bi-backspace'></i></h4></a>";
+                          } else {
+                            //what to show when user is not logged in instead of settings. if anything
+                          }                    
+                        ?>
                     </li>
                 </ul>
 
