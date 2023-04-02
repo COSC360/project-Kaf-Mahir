@@ -3,7 +3,10 @@ error_reporting(E_ALL);
 ini_set('display_errors', '1');
 require '../controllers/auth.php';
 
-
+if ($_SESSION['username'] != "admin") {
+    header("Location: home.php");
+      exit();
+}
 if (isset($_POST['toggle_status'])) {
   $username = mysqli_real_escape_string($conn, $_POST['username']);
   $status = mysqli_real_escape_string($conn, $_POST['status']);
@@ -14,7 +17,7 @@ if (isset($_POST['toggle_status'])) {
 
 ?>
 
-
+co
 <!DOCTYPE html>
 <html lang="en">
 <head>

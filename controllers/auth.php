@@ -19,6 +19,11 @@ if (isset($_POST["signup-btn"])) {
   $password_conf = $_POST['password_conf'];
 
   // Validate user inputs
+
+  if ($username === "admin") {
+    $errors['username'] = 'Username cannot be "admin"';
+  }
+
   if (empty($username)) {
     $errors['username'] = 'Username Required';
   }
@@ -34,9 +39,11 @@ if (isset($_POST["signup-btn"])) {
   if ($password !== $password_conf) {
     $errors['password_conf'] = 'Passwords do not match';
   }
-  if ($username === "admin") {
-    $errors['username'] = 'Username cannot be "admin"';
+
+  if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/', $password)) {
+    $errors['password'] = "Password must contain at least one lowercase letter, one uppercase letter, one number, and be at least 8 characters long.";
   }
+  
   // Check if email already exists in database
   $query_email = "SELECT * FROM users WHERE email=? LIMIT 1";
   $statement = $conn -> prepare($query_email);

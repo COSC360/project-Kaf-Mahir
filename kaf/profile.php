@@ -130,6 +130,9 @@ require 'load-profile.php';
      </div>
     </div>
     <div class="col-lg-6">
+
+    <a class="btn btn-info" href="setting.php" role="button">Profile Settings</a>
+
         <?php
         $msg = $_GET['msg'] ?? '';
         if (!empty($msg)) {
