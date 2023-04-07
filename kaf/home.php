@@ -83,9 +83,7 @@ exit();
                   //what to show when user is not logged in instead of profile picture
                   //use echo
                 }
-        
             ?>
-            
             <button 
                 type="button"
                 data-bs-toggle="collapse"
@@ -93,47 +91,40 @@ exit();
                 class="navbar-toggler"
                 aria-controls="navbarNav"
                 aria-expanded="false"
-                aria-label="Toggle navigation">
-                
-            <i class="bi bi-caret-down arrowDown"></i>
-            </button>
+                aria-label="Toggle navigation"><i class="bi bi-caret-down arrowDown"></i></button>
             <div 
                 class="collapse navbar-collapse "  
                 id="navbarNav">
-                <form action="results.php" class="d-flex ms-auto" method="POST">
+                <form action="results.php" class=" form-control-lg d-flex ms-auto" method="POST">
                     <input type="search" name="search" placeholder="Search..." class="form-control me 2">
                     <button class="btn btn-outline-info bi bi-search" type="submit" name="submit-search"></button></button>
                 </form>
-
                 <ul class="navbar-nav ms-auto align-items-center">
-                <li class="nav-item  ">
-                        <a href="home.php" class="nav-link  "><h4><i class="bi bi-house"></i></h4></a>
-                    </li>    
-                <li class="nav-item  ">
-                        <a href="login.php?logout" class="nav-link"><h4><i class='bi bi-box-arrow-right'></i></h4></a>
-
-                    </li>
-                    <li class="nav-item ">
-                      <?php 
-                          if (isset($_SESSION['username'])) {
-                            echo "<a href='./setting.php' class='nav-link'><h4><i class='bi bi-gear'></i></h4></a>";
-                          } else {
-                            //what to show when user is not logged in instead of settings. if anything
-                          }                    
-                        ?>
-                    </li>
-
-                     <li class="nav-item ">
-                      <?php 
-                          if (isset($_SESSION['username'])) {
-                            echo "<a href='./home.php?logout' class='nav-link logout-link'><h4><i class='bi bi-x-square'></i></h4></a>";
-                          } else {
-                            //what to show when user is not logged in instead of settings. if anything
-                          }                    
-                        ?>
-                    </li>
+                  <li class="nav-item  ">
+                      <a href="home.php" class="nav-link  "><h4><i class="bi bi-house"></i></h4></a>
+                  </li>    
+                  <li class="nav-item  ">
+                      <a href="login.php?logout" class="nav-link"><h4><i class='bi bi-box-arrow-right'></i></h4></a>
+                  </li>
+                  <li class="nav-item ">
+                    <?php 
+                        if (isset($_SESSION['username'])) {
+                          echo "<a href='./setting.php' class='nav-link'><h4><i class='bi bi-gear'></i></h4></a>";
+                        } else {
+                          //what to show when user is not logged in instead of settings. if anything
+                        }                    
+                      ?>
+                  </li>
+                  <li class="nav-item ">
+                    <?php 
+                        if (isset($_SESSION['username'])) {
+                          echo "<a href='./home.php?logout' class='nav-link logout-link'><h4><i class='bi bi-x-square'></i></h4></a>";
+                        } else {
+                          //what to show when user is not logged in instead of settings. if anything
+                        }                    
+                      ?>
+                  </li>
                 </ul>
-
             </div>
         </div>
     </nav>
@@ -173,13 +164,22 @@ exit();
       </div>
       <div class="modal-body">
         <form method='POST' action='home.php' name='postForm' id='postForm'>
-          <div class="form-group">
+          <div class="form-group m-1">
             <label for="post-title">Title</label>
             <input type="text" class="form-control" id="postTitle"name='postTitle'placeholder="Enter post title" required>
           </div>
-          <div class="form-group">
+          <div class="form-group m-1">
             <label for="post-content">Content</label>
             <textarea class="form-control" id="postContent" rows="3" name='postContent' placeholder="Enter post content" required></textarea>
+          </div>
+          <div class="form-group m-1">
+            <label for="post-category">Category</label>
+            <select name="category">
+              <option value="land_animals">Land Animals</option>
+              <option value="bird_watching">Bird Watching</option>
+              <option value="marine_animals">Marine Animals</option>
+              <option value="misc">Misc</option>
+            </select>
           </div>
         </form>
       </div>
@@ -190,7 +190,6 @@ exit();
     </div>
   </div>
 </div>
-
 
 <h3>Featured Topics</h3>
 <div class="row">
