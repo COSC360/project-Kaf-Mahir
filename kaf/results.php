@@ -129,7 +129,7 @@ exit();
         </div>
     </nav>
   <div class="container dashboard" style="margin-top: 150px">
-  <div class="row center">
+  <div class="row ">
     <div class="col-md-8 col-md-offset-2">
       <h1>Search Results: </h1>
       <hr>
@@ -139,36 +139,32 @@ exit();
             $sql = "SELECT * FROM posts WHERE CONCAT(AuthorUsername, Body, Title) LIKE '%$search%'";
             $result = mysqli_query($conn, $sql);
             $queryResult = mysqli_num_rows($result);
-
+           
+            $UpvotedByCurrentUser = false; //Default is false
+            $result_exist = mysqli_query($conn, $sql);
+            if (mysqli_num_rows($result_exist) > 0) {
+              $UpvotedByCurrentUser = true;
+            }
 
             if ($queryResult > 0) {
               while($row = mysqli_fetch_assoc($result)) {
                 echo "
-                <div class='card mb-3'>
-                  <div class='card-body'>
-                    <h5 class='card-title'>" . $row['Title'] . "</h5>
-                    <p class='card-text'>" . $row['Body'] . "</p>
-                    <p class='card-text'><small class='text-muted'> Posted by " . $row['AuthorUsername'] . " on " . $row['DateCreated'] . "</small></p>
-                    <div class='dropdown'>
-                      <!-- Button trigger popover -->
-                      <button type='button' class='btn btn-light' title='Likes'><i class='bi bi-hand-thumbs-up-fill'></i></button>
-                      <button type='button' class='btn btn-light' data-toggle='popover' data-placement='bottom' title='Comments'><i class='bi bi-chat-left-dots-fill'></i></button>
-                      <button type='button' class='btn btn-light' title='Share'><i class='bi bi-share-fill'></i></button>
-                      
-                      <!-- Popover content -->
-                      <div id='comments-popover-content' class='d-none'>
-                        <ul>
-                          <li>Comment 1</li>
-                          <li>Comment 2</li>
-                          <li>Comment 3</li>
-                        </ul>
+                    <a href='post.php?postID=" . $row['PostID'] . "' style='text-decoration: none; color: black;' class='card'>
+                      <div class='card-body'>
+                          <h5 class='card-title'>" . $row['Title'] . "</h5>
+                          <p class='card-text'>" . $row['Body'] . "</p>
+                          <p class='card-text'><small class='text-muted'> Posted by " . $row['AuthorUsername'] . " on " . $row['DateCreated'] . "</small></p>
                       </div>
-
-
-                      <!-- Initialize popover -->
-                    </div>
-                  </div>
-                </div>
+                    </a>
+                      <div>
+                          <div class='dropdown m-3 mb-4 ms-auto'>
+                            <!-- Button trigger popover -->
+                            <button type='button' " . (isset($_SESSION['username']) ? "data-post-username='" . $_SESSION['username'] . "' " : "") . "data-post-id='" . $row['PostID'] . " 'class='btn upvote-btn btn-light' name='upvote-btn' title='Likes'><i class='bi bi-arrow-up-square" . ($UpvotedByCurrentUser ? '-fill liked' : ' unliked') . "'></i> <span id='upvotes-" . $row['PostID'] . "' class='counter-" . $row['PostID'] . "'> ". $row['upvotes'] . "</span></button>
+                            <button type='button' class='btn btn-light' data-toggle='popover' data-placement='bottom' title='Comments'><i class='bi bi-chat-left-dots-fill'></i></button>
+                            <button type='button' class='btn btn-light' title='Share'><i class='bi bi-share-fill'></i></button>
+                          </div>
+                        </div>
+                     
                 ";
               }
             } else {
@@ -176,9 +172,59 @@ exit();
             }
           }
         ?>
-    
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      $('.upvote-btn').click(function() {
+        var $icon = $(this).find('i');  //find i element within upvote-btn
+        $icon.toggleClass('bi-arrow-up-square bi-arrow-up-square-fill'); //toggle between 2 classes
+        var post_id = $(this).data('post-id');
+        var session_username = $(this).data('post-username');
+        // var $counter = $(this).find('.counter');
+        var $upvoteCount = $('#upvotes-' + post_id);
+        
+        $.ajax({
+          url: 'home.php',
+          type: 'POST',
+          data: {
+            post_id: post_id,
+            session_username: session_username,
+            liked: 1
+          },
+          success: function(response) {
+            
+            
+
+            if (response.trim() == 'login'){
+              window.location.href = "login.php?msg=" + encodeURIComponent("You must be logged in to upvote.");
+            } else {
+              console.log(response);
+              console.log(session_username);
+              var data = JSON.parse(response);
+              $("#upvotes-" + post_id).text(data.upvotes);
+              console.log('Upvote added');        }
+          },
+          error: function(xhr, status, error) {
+            console.error(error);
+          }
+        });
+      });
+    });
+
+  </script>
+
+  <script>
+      $(document).ready(function() {
+      $('.logout-link').click(function(event) { 
+        $.get($(this).attr('href'), function(response) {
+          location.reload(); // reload the page after the server responds
+        });
+      });
+    });
+  </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   </body>
