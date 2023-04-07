@@ -203,11 +203,7 @@ $isMyProfile = false;
               <button type='button' class='btn btn-light' title='Share'><i class='bi bi-share-fill'></i></button>
         </div>
         ";
-
-
       }
-
-      
     }
     ?>
     </div>

@@ -215,20 +215,65 @@ exit();
         }
         echo "
         <a href='post.php?postID=" . $row['PostID'] . "' style='text-decoration: none; color: black;' class='card'>
-          <div class='card-body'>
-            <h5 class='card-title'>" . $row['Title'] . "</h5>
-            <p class='card-text'>" . $row['Body'] . "</p>
-            <p class='card-text'><small class='text-muted'> Posted by " . $row['AuthorUsername'] . " on " . $row['DateCreated'] . "</small></p>
-          </div>
-        </a>
-        <div class='dropdown m-3 mb-4 ms-auto'>
-              <!-- Button trigger popover -->
-              <button type='button' " . (isset($_SESSION['username']) ? "data-post-username='" . $_SESSION['username'] . "' " : "") . "data-post-id='" . $row['PostID'] . " 'class='btn upvote-btn btn-light' name='upvote-btn' title='Likes'><i class='bi bi-arrow-up-square" . ($UpvotedByCurrentUser ? '-fill liked' : ' unliked') . "'></i> <span id='upvotes-" . $row['PostID'] . "' class='counter-" . $row['PostID'] . "'> ". $row['upvotes'] . "</span></button>
-              <button type='button' class='btn btn-light' data-toggle='popover' data-placement='bottom' title='Comments'><i class='bi bi-chat-left-dots-fill'></i></button>
-              <button type='button' class='btn btn-light' title='Share'><i class='bi bi-share-fill'></i></button>
+        <div class='card-body'>
+          <h5 class='card-title'>" . $row['Title'] . "</h5>
+          <p class='card-text'>" . $row['Body'] . "</p>
+          <p class='card-text'><small class='text-muted'> Posted by " . $row['AuthorUsername'] . " on " . $row['DateCreated'] . "</small></p>
         </div>
-        ";
+      </a>
+      <div class='dropdown m-3 mb-4' style='display: flex; justify-content: flex-end;'>
+        <!-- Button trigger popover -->
+        <button type='button' " . (isset($_SESSION['username']) ? "data-post-username='" . $_SESSION['username'] . "' " : "") . "data-post-id='" . $row['PostID'] . " 'class='btn upvote-btn btn-light' name='upvote-btn' title='Likes'>
+          <i class='bi bi-arrow-up-square" . ($UpvotedByCurrentUser ? '-fill liked' : ' unliked') . "'></i>
+          <span id='upvotes-" . $row['PostID'] . "' class='counter-" . $row['PostID'] . "'> ". $row['upvotes'] . "</span>
+        </button>
+        <a href='post.php?postID=" . $row['PostID'] . "' class='btn btn-light' data-toggle='popover' data-placement='bottom' title='Comments'>
+          <i class='bi bi-chat-left-dots-fill'></i>
+        </a>
+
+      ";
+
+      if(isset($_SESSION['username'])) {
+        if($_SESSION['username']== 'admin')  {
+
+         echo " <button type='button' class='btn btn-light' title='edit' data-toggle='modal' data-target='#editModal'>
+          <i class='bi bi-pencil-square'></i>
+        </button>
+      </div>
+
+      <!-- Modal -->
+      <div class='modal fade' id='editModal' tabindex='-1' role='dialog' aria-labelledby='editModalLabel' aria-hidden='true'>
+        <div class='modal-dialog' role='document'>
+          <div class='modal-content'>
+            <div class='modal-header'>
+              <h5 class='modal-title' id='editModalLabel'>Edit Post</h5>
+              <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                <span aria-hidden='true'>&times;</span>
+              </button>
+            </div>
+            <div class='modal-body'>
+              <form action='edit_post.php' method='post'>
+                <div class='form-group'>
+                  <label for='postBody'>Edit Post:</label>
+                  <textarea class='form-control' id='postBody' name='postBody' rows='5'></textarea>
+                </div>
+              </form>
+            </div>
+            <div class='modal-footer'>
+              <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancel</button>
+              <button type='submit' class='btn btn-primary'>Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>";
+      } else {
+        echo "</div>";
       }
+    } else {
+      echo "</div>";
+
+    }
+  }
     }
     ?>
 
