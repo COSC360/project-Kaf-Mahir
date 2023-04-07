@@ -209,16 +209,16 @@ exit();
         <hr>
         <h2 class='m-3'>" . $row['Title']  . "</h2>
         <div class='card mb-3'>
-  <div class='card-body'>
-    <p class='card-text'>" . $row['Body'] . "</p>
-    <p class='card-text'><small class='text-muted'> Posted by <a href='./profile.php?username=" . $row['AuthorUsername'] . "' style='text-decoration: underline italic;'>" . $row['AuthorUsername'] . "</a> on " . $row['DateCreated'] . "</small></p>
-    <div class='dropdown'>
-      <button type='button' " . (isset($_SESSION['username']) ? "data-post-username='" . $_SESSION['username'] . "' " : "") . "data-post-id='" . $row['PostID'] . " 'class='btn upvote-btn btn-light' name='upvote-btn' title='Likes'><i class='bi bi-arrow-up-square" . ($UpvotedByCurrentUser ? '-fill liked' : ' unliked') . "'></i> <span id='upvotes-" . $row['PostID'] . "' class='counter-" . $row['PostID'] . "'> ". $row['upvotes'] . "</span>
-      </button>
-      <button type='button' class='btn btn-light' data-toggle='popover' data-placement='bottom' title='Comments'><i class='bi bi-chat-left-dots-fill'></i></button>
-      <button type='button' class='btn btn-light' title='Share'><i class='bi bi-share-fill'></i></button>
-    </div>
-  </div>
+          <div class='card-body'>
+            <p class='card-text'>" . $row['Body'] . "</p>
+            <p class='card-text'><small class='text-muted'> Posted by <a href='./profile.php?username=" . $row['AuthorUsername'] . "' style='text-decoration: underline italic;'>" . $row['AuthorUsername'] . "</a> on " . $row['DateCreated'] . "</small></p>
+            <div class='dropdown m-3 mb-4 ' style='display: flex; justify-content: flex-end;'>
+              <button type='button' " . (isset($_SESSION['username']) ? "data-post-username='" . $_SESSION['username'] . "' " : "") . "data-post-id='" . $row['PostID'] . " 'class='btn upvote-btn btn-light' name='upvote-btn' title='Likes'><i class='bi bi-arrow-up-square" . ($UpvotedByCurrentUser ? '-fill liked' : ' unliked') . "'></i> <span id='upvotes-" . $row['PostID'] . "' class='counter-" . $row['PostID'] . "'> ". $row['upvotes'] . "</span>
+              </button>
+              <button type='button' class='btn btn-light' data-toggle='popover' data-placement='bottom' title='Comments'><i class='bi bi-chat-left-dots-fill'></i></button>
+              <button type='button' class='btn btn-light' title='Share'><i class='bi bi-share-fill'></i></button>
+            </div>
+          </div>
   <div class='card-footer'>"; 
   // <!-- Generate Comments -->
     $comment_query = "SELECT * FROM comments WHERE PostID = ". $_GET['postID'];
