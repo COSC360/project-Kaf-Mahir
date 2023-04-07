@@ -54,7 +54,7 @@ require 'load-profile.php';
     <title>Profile</title>
 </head>
 <body >
-<nav class="navbar fixed-top navbar-expand-md navbar-light" style="background-color: rgba(255,255,255, 0.85)">
+  <nav class="navbar fixed-top navbar-expand-md navbar-light" style="background-color: rgba(255,255,255, 0.85)">
         <div class="container">
           <?php 
               if (isset($_SESSION['username'])) { //if user logged in
@@ -71,9 +71,7 @@ require 'load-profile.php';
                   //what to show when user is not logged in instead of profile picture
                   //use echo
                 }
-        
             ?>
-            
             <button 
                 type="button"
                 data-bs-toggle="collapse"
@@ -133,8 +131,6 @@ require 'load-profile.php';
           <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link active" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab"
               aria-controls="v-pills-profile" aria-selected="true">Profile</a>
-            <a class="nav-link" id="v-pills-notifications-tab" data-toggle="pill" href="#v-pills-notifications" role="tab"
-              aria-controls="v-pills-notifications" aria-selected="false">Notifications</a>
             <a class="nav-link" id="v-pills-security-tab" data-toggle="pill" href="#v-pills-security" role="tab"
               aria-controls="v-pills-security" aria-selected="false">Security</a>
           </div>
@@ -148,58 +144,20 @@ require 'load-profile.php';
                 <!-- Show Input Errors To User -->
                   <?php if (isset($_POST['save-profile']) && !validateFile()) { 
                     echo "<div class='alert alert-warning'>Image formant not supported</div>"; 
-                  } ?>
-                          
-                    
-                      
-              <div class="form-group">
-                    <label class="mt-2" for="inputName">Name</label>
-                    <input type="text" name="inputName"class="form-control" id="inputName" placeholder="Enter name">
-                  </div>
+                  } ?>   
+                <div class="form-group">
+                      <label class="mt-2" for="inputName">Name</label>
+                      <input type="text" name="inputName"class="form-control" id="inputName" placeholder="Enter name">
+                    </div>
                 <div class="form-group">
                   <label class="mt-2" for="inputBio">Bio</label>
                   <textarea type="text" name="inputBio" class="form-control" id="inputBio" placeholder="Enter Bio"> </textarea>
                 </div>
-                  <!-- <div class="form-group">
-                    <label class="mt-2" for="inputEmail">Email</label>
-                    <input type="email" class="form-control" id="inputEmail" placeholder="Enter email">
-                  </div>
-                  <div class="form-group">
-                    <label class="mt-2" for="inputCity">City</label>
-                    <input type="text" class="form-control" id="inputCity" placeholder="Enter city">
-                  </div> -->
                 <div class="form-group">
                   <label class="mt-2" for="inputPic">Profile Image</label>
                   <input type="file" class="form-control" id="inputPic" name='inputPic' accept= "image/*">
                 </div>
-                  <button type="submit" name="save-profile" class="btn btn-primary mt-3">Save Changes</button>
-                </form>
-            </div>
-            <div class="tab-pane fade" id="v-pills-notifications" role="tabpanel" aria-labelledby="v-pills-notifications-tab">
-              <h2 class="mb-4">Notification Settings</h2>
-              <form>
-                <div class="form-group">
-                  <label for="inputNotification1">Notification 1</label>
-                  <div class="custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input" id="inputNotification1">
-                    <label class="custom-control-label" for="inputNotification1">Receive notification 1</label>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="inputNotification2">Notification 2</label>
-                  <div class="custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input" id="inputNotification2">
-                    <label class="custom-control-label" for="inputNotification2">Receive notification 2</label>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="inputNotification3">Notification 3</label>
-                  <div class="custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input" id="inputNotification3">
-                    <label class="custom-control-label" for="inputNotification3">Receive notification 3</label>
-                  </div>
-                </div>
-                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <button type="submit" name="save-profile" class="btn btn-primary mt-3">Save Changes</button>
               </form>
             </div>
             <div class="tab-pane fade" id="v-pills-security" role="tabpanel" aria-labelledby="v-pills-security-tab">
@@ -223,17 +181,15 @@ require 'load-profile.php';
           </div>
       </div>
     </div>
- 
-
-</div>
+ </div>
     <footer>
         
     </footer>
 
-<!-- Bootstrap JavaScript -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.1/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <!-- Bootstrap JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
 </html>
 
