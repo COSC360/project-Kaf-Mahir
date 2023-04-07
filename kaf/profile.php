@@ -4,6 +4,7 @@ ini_set('display_errors', '1');
 require '../controllers/auth.php';
 require 'load-profile.php';
     
+$isMyProfile = false;
 
 ?>
 <!DOCTYPE html>
@@ -21,6 +22,9 @@ require 'load-profile.php';
 <nav class="navbar fixed-top navbar-expand-md navbar-light" style="background-color: rgba(255,255,255, 0.85)">
         <div class="container">
           <?php 
+              if ($_SESSION['username'] == $username) {
+                $isMyProfile = true;
+              } else $isMyProfile == false;
               if (isset($_SESSION['username'])) { //if user logged in
                   echo "<a 
                   href='./profile.php' 
@@ -124,8 +128,19 @@ require 'load-profile.php';
     <div class="container myBlogs mb-5">
   <div class="row">
     <div class="col-lg-4">
-      <div class="profile-banner">
-        <h2><?php echo $_SESSION['username'];?></h2>
+      <?php 
+      if (!$isMyProfile) {
+        $user_pic = "img/" . $username . ".jpg";
+        $default_pic = "img/default2.jpg";
+          if (file_exists($user_pic)) {
+              $profile_pic = $user_pic;
+          } else {
+              $profile_pic = $default_pic;
+          }
+      }
+      ?>
+    <div class="profile-banner" style="background-image: url('<?php echo $profile_pic; ?>');">
+        <h2><?php echo $username;?></h2>
         <h4><?php echo $full_name;?></h4>
      </div>
     </div>
@@ -142,17 +157,23 @@ require 'load-profile.php';
         }
         ?>
       <div class="account">
-        <h2>My Posts</h2>
+        
+        <?php 
+
+        if ($isMyProfile) {
+        echo "<h2>My Posts</h2>";
+        } else {
+          echo "<h2>" .$username. "'s Posts</h2>";
+        }?>
         <div class="bio card-body rounded-2">
             <p> <?php echo $bio; ?></p>
         </div>
       </div>
       <div class="card mb-3">
       <?php 
-    if (isset($_SESSION['username'])) {
-    $username = mysqli_real_escape_string($conn, $_SESSION['username']);
-    }
-
+    
+    
+    //Generate Posts
     $query = "SELECT * FROM posts WHERE AuthorUsername like '%$username%' ORDER BY DateCreated DESC";
 
     $result = mysqli_query($conn,$query);

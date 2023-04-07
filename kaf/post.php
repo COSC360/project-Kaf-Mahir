@@ -211,7 +211,7 @@ exit();
         <div class='card mb-3'>
   <div class='card-body'>
     <p class='card-text'>" . $row['Body'] . "</p>
-    <p class='card-text'><small class='text-muted'> Posted by " . $row['AuthorUsername'] . " on " . $row['DateCreated'] . "</small></p>
+    <p class='card-text'><small class='text-muted'> Posted by <a href='./profile.php?username=" . $row['AuthorUsername'] . "' style='text-decoration: underline italic;'>" . $row['AuthorUsername'] . "</a> on " . $row['DateCreated'] . "</small></p>
     <div class='dropdown'>
       <button type='button' " . (isset($_SESSION['username']) ? "data-post-username='" . $_SESSION['username'] . "' " : "") . "data-post-id='" . $row['PostID'] . " 'class='btn upvote-btn btn-light' name='upvote-btn' title='Likes'><i class='bi bi-arrow-up-square" . ($UpvotedByCurrentUser ? '-fill liked' : ' unliked') . "'></i> <span id='upvotes-" . $row['PostID'] . "' class='counter-" . $row['PostID'] . "'> ". $row['upvotes'] . "</span>
       </button>
