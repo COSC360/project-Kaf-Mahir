@@ -238,21 +238,26 @@ exit();
 
 
       if (isset($_SESSION['username'])) { 
-        echo '<form name="commentform" method="POST" action="post.php?postID=' . $_GET['postID'] . '">
-                  <div class="form-floating">
-                      <textarea class="form-control" name="comment" id="comment" placeholder="Enter Comment Here ..." required></textarea>
-                      <label for="comment">Enter Comment Here</label>
-                  </div>
-                  <button type="submit" name="post-comment" id="post-comment" class="btn btn-primary btn-sm mx-auto p-1 m-2" form="commentform">Post Comment</button>
-              </form>';
+        ?>
+        <form name="commentform" id="commentform" method="POST" action="post.php?postID=<?php echo $_GET['postID']; ?>">
+            <div class="form-floating">
+                <textarea class="form-control" name="comment" id="comment" placeholder="Enter Comment Here ..." required></textarea>
+                <label for="comment">Enter Comment Here</label>
+            </div>
+            <button type="submit" name="post-comment" id="post-comment" class="btn btn-primary btn-sm mx-auto p-1 m-2" form="commentform">Post Comment</button>
+        </form>
+        <?php
     } else {
-      echo '<form method="POST" action="post.php?postID=' . $_GET['postID'] . '>
-                  <div class="form-floating">
-                      <textarea disabled class="form-control" name="comment" id="floatingTextarea2" placeholder="Login before adding comments" required></textarea>
-                      <label for="floatingTextarea2"></label>
-                  </div>
-              </form>';
+        ?>
+        <form method="POST" action="post.php?postID=<?php echo $_GET['postID']; ?>">
+            <div class="form-floating">
+                <textarea disabled class="form-control" name="comment" id="floatingTextarea2" placeholder="Login before adding comments" required></textarea>
+                <label for="floatingTextarea2"></label>
+            </div>
+        </form>
+        <?php
     }
+    
 
     if (isset($_POST['post-comment'])) {
       $username = $_SESSION['username'];
@@ -265,9 +270,6 @@ exit();
 
       mysqli_stmt_close($stmt);
     }
-
-  
-
     }
     ?>
 
