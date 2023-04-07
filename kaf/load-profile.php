@@ -11,7 +11,6 @@ if (!empty($username)) {
     $query = "SELECT * FROM profiles WHERE username = '$username'";
     $result = mysqli_query($conn,$query);
     $row = mysqli_fetch_array($result);
-    
     if (!empty($row)) {
         $full_name = $row['full_name'];
         $bio = $row['bio'];
@@ -49,6 +48,35 @@ if (isset($_FILES['inputPic']['tmp_name'])) {
   }
 
 }
+// Update the user's profile information if the form is submitted
+if (isset($_POST['save-profile'])) {
+  $full_name = mysqli_real_escape_string($conn, $_POST['inputName']);
+  $bio = mysqli_real_escape_string($conn, $_POST['inputBio']);
+  echo $bio;
+  $update_query;
+  
+
+  if ($bio == " " && !empty($full_name)) {
+    //update full name only
+    $update_query = "UPDATE profiles SET full_name = '$full_name' WHERE username = '$username'";
+  } else if ($bio == " " && empty($full_name)) {
+    //do nothing
+  } else if (empty($full_name) && !($bio == " ")) {
+    $update_query = "UPDATE profiles SET bio = '$bio' WHERE username = '$username'";
+  } else { //update both
+    $update_query = "UPDATE profiles SET full_name = '$full_name', bio = '$bio' WHERE username = '$username'";
+  }
+
+  mysqli_query($conn, $update_query);
+ 
+  // Redirect to the profile page with a success message
+  $msg = "Profile successfully updated";
+  header("Location: profile.php?msg=" . urlencode($msg));
+  exit;
+}
+
+
+
 
 //validate extension
 function validateFile() {
