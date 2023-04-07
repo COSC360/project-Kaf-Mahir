@@ -1,7 +1,13 @@
 <?php 
 //return profile info from database
-if(isset($_SESSION['username'])) {
+if (isset($_GET['username'])) {
+  $username = mysqli_real_escape_string($conn, $_GET['username']);
+}
+else if(isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
+}
+
+if (!empty($username)) {
     $query = "SELECT * FROM profiles WHERE username = '$username'";
     $result = mysqli_query($conn,$query);
     $row = mysqli_fetch_array($result);
@@ -16,11 +22,11 @@ if(isset($_SESSION['username'])) {
         $full_name = "Full Name";
         $bio = "Bio";
     }
-}
 
+  }
 //pic
 $profile_pic;
-$user_pic = "img/" .$username . ".jpg";
+$user_pic = "img/" .$_SESSION['username'] . ".jpg";
 $default_pic = "img/default2.jpg";
 
 if (file_exists($user_pic)) {
