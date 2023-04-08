@@ -4,6 +4,41 @@ ini_set('display_errors', '1');
 require '../controllers/auth.php';
 require 'load-profile.php';
 
+
+
+if (isset($_POST['update-password'])) {
+  $current_pass = $_POST['inputCurrentPassword'];
+  $new_pass = $_POST['inputNewPassword'];
+  $confirm_pass = $_POST['inputConfirmPassword'];
+
+  $query = "SELECT * FROM users WHERE email=? OR username=?";
+  $statement = $conn -> prepare($query); 
+  $statement -> bind_param('ss', $_SESSION['username'], $_SESSION['username']);
+  $statement -> execute();
+  $result = $statement->get_result();
+  $user = $result -> fetch_assoc(); 
+  if(password_verify($current_pass, $user['password'])) {
+    if ($new_pass !== $confirm_pass) {
+      $errors['password'] = 'Password and Confirm Password have to match';
+    } else if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/', $new_pass)) {
+      $errors['password'] = "Password must contain at least one lowercase letter, one uppercase letter, one number, and be at least 8 characters long.";
+    } else if (count($errors)===0){
+      $hashed_password = password_hash($new_pass, PASSWORD_DEFAULT);
+      $update_query = 'UPDATE users SET password = ? WHERE username = ?';
+      $statement -> bind_param('ss', $hashed_password, $_SESSION['username']);
+      if ($statement -> execute()) {
+        echo "<div class='alert alert-success'> Your password was successfully changed </div>";
+      } else {
+        echo "<div class='alert alert-danger'> Error changing password. Try again later </div>";
+      }
+    }
+  } else {
+      $errors['password'] = 'Password is incorrect';
+    }
+}
+
+
+
 if (isset($_POST['post_id'])) { //if ajax request triggered
   if (isset($_SESSION['username'])){ //if user logged in
     try {
@@ -104,8 +139,16 @@ exit();
                       <a href="home.php" class="nav-link  "><h4><i class="bi bi-house"></i></h4></a>
                   </li>    
                   <li class="nav-item  ">
-                      <a href="login.php?logout" class="nav-link"><h4><i class='bi bi-box-arrow-right'></i></h4></a>
+                      <a href="logout.php" onclick='logout()' class="nav-link"><h4><i class='bi bi-box-arrow-right'></i></h4></a>
                   </li>
+                  <script>
+                    function logout() {
+                      // Wait for 1 second before redirecting
+                      setTimeout(function() {
+                        window.location.href = "http://localhost/project-Kaf-Mahir/kaf/login.php";
+                      }, 1000);
+                    }
+                  </script>
                   <li class="nav-item ">
                     <?php 
                         if (isset($_SESSION['username'])) {
@@ -117,8 +160,8 @@ exit();
                   </li>
                   <li class="nav-item ">
                     <?php 
-                        if (isset($_SESSION['username'])) {
-                          echo "<a href='./home.php?logout' class='nav-link logout-link'><h4><i class='bi bi-x-square'></i></h4></a>";
+                        if (isset($_SESSION['username']) && $_SESSION['username'] == 'admin') {
+                          echo "<a href='./admin.php' class='nav-link'><h4><i class='bi bi-x-square'></i></h4></a>";
                         } else {
                           //what to show when user is not logged in instead of settings. if anything
                         }                    
@@ -165,22 +208,35 @@ exit();
                 <button type="submit" name="save-profile" class="btn btn-primary mt-3">Save Changes</button>
               </form>
             </div>
+            <div>
+                        <!-- Show Input Errors To User -->
+                        <?php 
+                          if (isset($_POST['update-password']) && count($errors) > 0): 
+                        ?>
+                          <div class="alert alert-danger">
+                            <?php foreach($errors as $error): ?>
+                              <li><?php echo $error; ?></li>
+                            <?php endforeach; ?>
+                          </div>
+                        <?php endif; ?>
+                      </div>
+
             <div class="tab-pane fade" id="v-pills-security" role="tabpanel" aria-labelledby="v-pills-security-tab">
               <h2 class="mb-4">Security Settings</h2>
-              <form>
+              <form action='setting.php' method='post'>
                 <div class="form-group">
                     <label class="mt-2" for="inputCurrentPassword">Current Password</label>
-                    <input type="password" class="form-control" id="inputCurrentPassword" placeholder="Enter current password">
+                    <input type="password" class="form-control" id="inputCurrentPassword" placeholder="Enter current password" required>
                 </div>
                 <div class="form-group">
                     <label class="mt-2" for="inputNewPassword">New Password</label>
-                    <input type="password" class="form-control" id="inputNewPassword" placeholder="Enter new password">
+                    <input type="password" class="form-control" id="inputNewPassword" placeholder="Enter new password" required>
                 </div>
                 <div class="form-group">
                     <label class="mt-2" for="inputConfirmPassword">Confirm New Password</label>
-                    <input type="password" class="form-control" id="inputConfirmPassword" placeholder="Confirm new password">
+                    <input type="password" class="form-control" id="inputConfirmPassword" placeholder="Confirm new password" required>
                 </div>
-                <button type="submit" class="btn btn-primary mt-2">Update Password</button>
+                <button type="submit" class="btn btn-primary mt-2" name='update-password'>Update Password</button>
               </form>
             </div>
           </div>

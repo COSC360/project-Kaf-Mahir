@@ -83,7 +83,7 @@ co
                      <li class="nav-item ">
                       <?php 
                           if (isset($_SESSION['username'])) {
-                            echo "<a href='./home.php?logout' class='nav-link logout-link'><h4><i class='bi bi-x-square'></i></h4></a>";
+                            echo "<a href='./admin.php' class='nav-link logout-link'><h4><i class='bi bi-x-square'></i></h4></a>";
                           } else {
                             //what to show when user is not logged in instead of settings. if anything
                           }                    

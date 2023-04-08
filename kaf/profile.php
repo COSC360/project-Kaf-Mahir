@@ -66,9 +66,26 @@ $isMyProfile = false;
                         <a href="home.php" class="nav-link  "><h4><i class="bi bi-house"></i></h4></a>
                     </li>    
                 <li class="nav-item  ">
-                        <a href="login.php?logout" class="nav-link"><h4><i class='bi bi-box-arrow-right'></i></h4></a>
+                        <a href="logout.php" onclick='logout()' class="nav-link"><h4><i class='bi bi-box-arrow-right'></i></h4></a>
 
                     </li>
+                    <li class="nav-item ">
+                    <?php 
+                        if (isset($_SESSION['username']) && $_SESSION['username'] == 'admin') {
+                          echo "<a href='./admin.php' class='nav-link'><h4><i class='bi bi-x-square'></i></h4></a>";
+                        } else {
+                          //what to show when user is not logged in instead of settings. if anything
+                        }                    
+                      ?>
+                  </li>
+                    <script>
+                    function logout() {
+                      // Wait for 1 second before redirecting
+                      setTimeout(function() {
+                        window.location.href = "http://localhost/project-Kaf-Mahir/kaf/login.php";
+                      }, 1000);
+                    }
+                  </script>
                     <li class="nav-item ">
                       <?php 
                           if (isset($_SESSION['username'])) {
